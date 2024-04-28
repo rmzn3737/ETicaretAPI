@@ -14,54 +14,30 @@ namespace ETicaretAPI.API.Controllers
         readonly private IProductWriteRepository _productWriteRepository;//private readonly IProductService _productService;
         readonly private IProductReadRepository _productReadRepository;
         readonly private IOrderWriteRepository _orderWriteRepository;
+        readonly private ICustomerWriteRepository _customerWriteRepository;
 
         public ProductsController(
-            IProductWriteRepository productWriteRepository, 
-            IProductReadRepository productReadRepository, 
-            IOrderWriteRepository orderWriteRepository)
+            IProductWriteRepository productWriteRepository,
+            IProductReadRepository productReadRepository,
+            IOrderWriteRepository orderWriteRepository,
+            ICustomerWriteRepository customerWriteRepository)
         {
             _productWriteRepository = productWriteRepository;
             _productReadRepository = productReadRepository;
             _orderWriteRepository = orderWriteRepository;
+            _customerWriteRepository = customerWriteRepository;
         }
         [HttpGet]
         public async Task Get()
         {
-           await _productWriteRepository.AddAsync(new() { Name="C Product", Price=1.500F,Stock=10,CreatedDate=DateTime.UtcNow});
-            await _productWriteRepository.SaveAsync();
-            //await _productWriteRepository.AddRangeAsync(new()
-            // {
-            //     new(){ Id=Guid.NewGuid(),Name="Product 1",Price=100,CreatedDate =DateTime.UtcNow,Stock=10 },
-            //     new(){ Id=Guid.NewGuid(),Name="Product 2",Price=200,CreatedDate =DateTime.UtcNow,Stock=20 },
-            //     new(){ Id=Guid.NewGuid(),Name="Product 3",Price=300,CreatedDate =DateTime.UtcNow,Stock=30 },
-            // });
-            //var count = await _productWriteRepository.SaveAsync();
+            var customerId = Guid.NewGuid();
+            await _customerWriteRepository.AddAsync(new() { Id = customerId,Name="Alex De Souza" });
 
-            /*Product eldeEdilenProduct= await _productReadRepository.GetByIdAsync("c79b3cf9-959c-4458-94d4-edb1499a7d0b",false);
-            //eldeEdilenProduct.Name = "Ahmet";
-            eldeEdilenProduct.Name = "Mehmet";
-            await _productWriteRepository.SaveAsync();*/
+           await _orderWriteRepository.AddAsync(new() { Description = "bla bla bla", Address = "Türkiye, Konya",CustomerID=customerId });
+           await _orderWriteRepository.AddAsync(new() { Description = "bla2 bla2 bla2", Address = "Türkiye, Ege",CustomerID = customerId });
+           await _orderWriteRepository.SaveAsync();
         }
         
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(string id)
-        {
-            Product product = await _productReadRepository.GetByIdAsync(id);
-            return Ok(product);
-        }
-
-
-        //public ProductsController(IProductService productService)
-        //{
-        //     _productService = productService;
-        //}
-
-        ////[HttpGet]
-        ////public IActionResult GetProducts()
-        ////{
-
-        ////   var products = _productService.GetProducts();
-        ////    return Ok(products);
-        ////}
+        
     }
 }

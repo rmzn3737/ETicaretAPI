@@ -9,7 +9,7 @@ namespace ETicaretAPI.Domain.Entities
 {
     public class Order:BaseEntity
     {
-        public int CustomerID { get; set; }
+        public Guid CustomerID { get; set; }
         public string Description { get; set; }
         public string Address { get; set; }//Value Object yapabilirdik, yani şehir, mahalle vb. parçalara bölebiliriz.
         public ICollection<Product> Products { get; set; }//Bir siparişin birden fazla productı olduğunu ifade ediyor.
