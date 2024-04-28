@@ -24,7 +24,7 @@ namespace ETicaretAPI.Persistence
             services.AddSingleton<IOrderReadRepository, OrderReadRepository>();
             services.AddSingleton<IOrderWriteRepository, OrderWriteRepository>();
             services.AddSingleton<IProductReadRepository, ProductReadRepository>();
-            services.AddSingleton<IProductWriteRepository, ProductWriteRepository>();
+            services.AddSingleton<IProductWriteRepository, ProductWriteRepository>();//Düzelteceğiz.
         }
     }
 }
