@@ -29,6 +29,7 @@ namespace ETicaretAPI.API.Controllers
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery]Pagination pagination)
         {
+            var totalCount = _productReadRepository.GetAll(false).Count();
            var products = _productReadRepository.GetAll(false).Select(p => new
             {
                 p.Id,
@@ -39,7 +40,11 @@ namespace ETicaretAPI.API.Controllers
                 p.UpdatedDate
             }).Skip(pagination.Page * pagination.Size).Take(pagination.Size);
 
-            return Ok(products);
+            return Ok(new
+            {
+                totalCount,
+                products
+            });
         }
 
         [HttpGet("{id}")]
