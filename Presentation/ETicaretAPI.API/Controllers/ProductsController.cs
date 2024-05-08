@@ -29,8 +29,9 @@ namespace ETicaretAPI.API.Controllers
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery]Pagination pagination)
         {
+            //Task.Delay(5000); 
             var totalCount = _productReadRepository.GetAll(false).Count();
-           var products = _productReadRepository.GetAll(false).Select(p => new
+            var products = _productReadRepository.GetAll(false).Select(p => new
             {
                 p.Id,
                 p.Name,
@@ -89,7 +90,7 @@ namespace ETicaretAPI.API.Controllers
         {
             await _productWriteRepository.RemoveAsync(id);
             await _productWriteRepository.SaveAsync();
-            return  Ok();
+            return Ok();
 
         }
         
