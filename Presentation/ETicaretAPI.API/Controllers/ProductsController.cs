@@ -44,6 +44,7 @@ namespace ETicaretAPI.API.Controllers
             {
                 totalCount,
                 products
+
             });
         }
 
