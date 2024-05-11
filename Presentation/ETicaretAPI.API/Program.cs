@@ -2,11 +2,13 @@ using ETicaret.Application.Validators.Products;
 using ETicaretAPI.Persistence;
 using FluentValidation.AspNetCore; //El ile yazdýk, yoksa eletmiyor.
 using ETicaretAPI.Infrastructure.Filters;
+using ETicaretAPI.Infrastructure;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddPersistenceServices();
+builder.Services.AddInfrastructureServices();
 builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
 
     //policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()//Her yerden gelen istekler.
