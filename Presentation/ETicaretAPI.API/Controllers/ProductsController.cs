@@ -16,15 +16,16 @@ namespace ETicaretAPI.API.Controllers
     {
         readonly private IProductWriteRepository _productWriteRepository;//private readonly IProductService _productService;
         readonly private IProductReadRepository _productReadRepository;
-        
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
         public ProductsController(
             IProductWriteRepository productWriteRepository,
-            IProductReadRepository productReadRepository)
+            IProductReadRepository productReadRepository,
+            IWebHostEnvironment webHostEnvironment)
         {
             _productWriteRepository = productWriteRepository;
             _productReadRepository = productReadRepository;
-            
+            this._webHostEnvironment = webHostEnvironment;
         }
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery]Pagination pagination)
@@ -93,6 +94,27 @@ namespace ETicaretAPI.API.Controllers
             return Ok();
 
         }
-        
+        [HttpPost("[action]")]
+        public async Task<IActionResult> Upload()
+        {
+            //wwwroot/reource/product-images
+            string uploadPath = Path.Combine(_webHostEnvironment.WebRootPath,"reource/product-images");
+
+            if(!Directory.Exists(uploadPath))
+                Directory.CreateDirectory(uploadPath);
+            
+
+            Random r = new();
+            foreach (IFormFile file in Request.Form.Files)
+            {
+                string fullPath = Path.Combine(uploadPath, $"{r.Next()}{Path.GetExtension(file.FileName)}"); 
+                    //$"{r.NextDouble() }{Path.GetExtension(file.FileName)}");
+
+                using FileStream fileStream = new(fullPath, FileMode.Create, FileAccess.Write,FileShare.None,1024*1024,useAsync:false);
+                await file.CopyToAsync(fileStream);
+                await fileStream.FlushAsync();
+            }
+            return Ok();
+        }
     }
 }
