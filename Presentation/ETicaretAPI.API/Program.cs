@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddPersistenceServices();
 builder.Services.AddInfrastructureServices();
 
-//to do alttaki deðiþik kullanýmlar var.
+//todo alttaki deðiþik kullanýmlar var.
 //builder.Services.AddStorage(StorageType.Azure);
 builder.Services.AddStorage<LocalStorage>();
 //builder.Services.AddStorage(ETicaretAPI.Infrastructure.Enums.StorageType.Local);
