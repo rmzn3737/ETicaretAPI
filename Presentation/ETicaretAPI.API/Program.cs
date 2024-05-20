@@ -3,6 +3,8 @@ using ETicaretAPI.Persistence;
 using FluentValidation.AspNetCore; //El ile yazdýk, yoksa eletmiyor.
 using ETicaretAPI.Infrastructure.Filters;
 using ETicaretAPI.Infrastructure;
+using ETicaretAPI.Infrastructure.Enums;
+using ETicaretAPI.Infrastructure.Services.Storage.Azure;
 using ETicaretAPI.Infrastructure.Services.Storage.Local;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,7 @@ builder.Services.AddInfrastructureServices();
 //todo alttaki deðiþik kullanýmlar var.
 //builder.Services.AddStorage(StorageType.Azure);
 builder.Services.AddStorage<LocalStorage>();
+//builder.Services.AddStorage<AzureStorage>();
 //builder.Services.AddStorage(ETicaretAPI.Infrastructure.Enums.StorageType.Local);
 builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
 

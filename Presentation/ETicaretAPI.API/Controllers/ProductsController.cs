@@ -114,7 +114,7 @@ namespace ETicaretAPI.API.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> Upload()
         {
-           var datas= await _storageService.UploadAsync("resource/files", Request.Form.Files);
+           var datas= await _storageService.UploadAsync("files", Request.Form.Files);//resource/files"
             //*************
             ////wwwroot/reource/product-images
             //string uploadPath = Path.Combine(_webHostEnvironment.WebRootPath,"reource/product-images");
