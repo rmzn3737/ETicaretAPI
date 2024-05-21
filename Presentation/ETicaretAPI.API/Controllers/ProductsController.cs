@@ -112,57 +112,35 @@ namespace ETicaretAPI.API.Controllers
 
         }
         [HttpPost("[action]")]
-        public async Task<IActionResult> Upload()
+        public async Task<IActionResult> Upload(string id)
         {
-           var datas= await _storageService.UploadAsync("files", Request.Form.Files);//resource/files"
-            //*************
-            ////wwwroot/reource/product-images
-            //string uploadPath = Path.Combine(_webHostEnvironment.WebRootPath,"reource/product-images");
+            List<(string fileName, string pathOrContainerName)> result= await _storageService.UploadAsync("photo-images", Request.Form.Files);
 
-            //if(!Directory.Exists(uploadPath))
-            //    Directory.CreateDirectory(uploadPath);
+            Product product = await _productReadRepository.GetByIdAsync(id);
 
-
-            //Random r = new();
-            //foreach (IFormFile file in Request.Form.Files)
+            //foreach (var r in result)
             //{
-            //    string fullPath = Path.Combine(uploadPath, $"{r.Next()}{Path.GetExtension(file.FileName)}"); 
-            //        //$"{r.NextDouble() }{Path.GetExtension(file.FileName)}");
-
-            //    using FileStream fileStream = new(fullPath, FileMode.Create, FileAccess.Write,FileShare.None,1024*1024,useAsync:false);
-            //    await file.CopyToAsync(fileStream);
-            //    await fileStream.FlushAsync();
+            //product.ProductImageFiles.Add(new()
+            //{
+            //FileName = r.fileName,
+            //Path = r.pathOrContainerName,
+            //Storage = _storageService.StorageName,
+            //Products = new List<Product>() { product }
+            //});
             //}
-            //************
-            //var datas = await _fileService.UploadAsync("resource/files", Request.Form.Files);
-            //await _fileWriteRepository.AddRangeAsync(datas.Select(d => new ETicaretAPI.Domain.Entities.File()
-            //{
-            //    FileName = d.fileName,
-            //    Path = d.path
-            //}).ToList());
-            //await _fileWriteRepository.SaveAsync();
 
-            //await _invoiceFileWriteRepository.AddRangeAsync(datas.Select(d => new InvoiceFile()
-            //{
-            //    FileName = d.fileName,
-            //    Path = d.path,
-            //    Price = new Random().Next()
-            //}).ToList());
-            //await _invoiceFileWriteRepository.SaveAsync();
+            //todo ***** Alttaki ve üsttki yöntem resim eklemek için birbirinin alternatifi.
 
-            await _productImageFileWriteRepository.AddRangeAsync(datas.Select(d => new ProductImageFile()
+            await _productImageFileWriteRepository.AddRangeAsync(result.Select(r => new ProductImageFile
             {
-                FileName = d.fileName,
-                Path = d.pathOrContainerName,
-                Storage= _storageService.StorageName
-            }).ToList());
+                FileName = r.fileName,
+                Path = r.pathOrContainerName,
+                Storage = _storageService.StorageName,
+                Products = new List<Product>() { product }
+            }
+            ).ToList());
+
             await _productImageFileWriteRepository.SaveAsync();
-
-
-            //var d1 = _fileReadRepository.GetAll(false);
-            //var d2 = _invoiceFileReadRepository.GetAll(false);
-            //var d3 = _productImageFileReadRepository.GetAll(false);
-
             return Ok();
         }
     }
