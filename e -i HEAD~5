@@ -1,0 +1,196 @@
+[33mcommit 65451ec823e5f6daaebf8134ab5332706ab2f055[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mremoteadderrorbranch[m[33m)[m
+Author: ramazan <eserramazan43@gmail.com>
+Date:   Tue May 21 03:09:26 2024 +0300
+
+    #32- Asp.NET Core 6 + Angular İle Mini E-Ticaret _ Ürünlere Resim Ekleme Operasyonu - 1. Bu video tamamlandı,  çok şükür sorunsuz çalışıyor,select-product-image-dialog-component tamamlandı, çok şükür sorunsuz çalışıyor. Bu işlemlerin backend tarafına bakan işlemleri de tamamlandı.
+
+[33mcommit 2d10182f6f47109f576f924949a32b2ff002ee57[m
+Author: ramazan <eserramazan43@gmail.com>
+Date:   Mon May 20 04:06:18 2024 +0300
+
+    #31- Asp.NET Core 6 + Angular İle Mini E-Ticaret _ Azure Blob Storage Servis Entegrasyonu. Bu video bitti kodlamaları yaptık ancak, Azure bize hesap açtırmadığı için onlie storage (AzureStorage) bölümünün düzgün çalışıp çalışadığını test edemedik, ancak yapılanmayı tamamladıktan sonra LocalStoragea döndük ve kodlarımızı LocalStorage üzerinden test ettik, elhamdülillah sorunsuz çalışıyor. Diğer dersten devam edeceğiz. Azure key varken githuba yükletmiyor, sildik. Şimdi yüklemeyi deneyeceğiz.
+
+[33mcommit b0ef4db58992711b9ae927c63dd5331b0cedb611[m[33m ([m[1;32mmaster[m[33m)[m
+Author: ramazan <eserramazan43@gmail.com>
+Date:   Mon May 20 03:35:16 2024 +0300
+
+    #31- Asp.NET Core 6 + Angular İle Mini E-Ticaret _ Azure Blob Storage Servis Entegrasyonu. Bu video bitti kodlamaları yaptık ancak, Azure bize hesap açtırmadığı için onlie storage (AzureStorage) bölümünün düzgün çalışıp çalışadığını test edemedik, ancak yapılanmayı tamamladıktan sonra LocalStoragea döndük ve kodlarımızı LocalStorage üzerinden test ettik, elhamdülillah sorunsuz çalışıyor. Diğer dersten devam edeceğiz.
+
+[33mcommit 799136ec6f3af59f9d0ac3ce2661ce782a109cc2[m[33m ([m[1;31morigin/master[m[33m)[m
+Author: ramazan <eserramazan43@gmail.com>
+Date:   Tue May 14 03:04:41 2024 +0300
+
+    #30- Asp.NET Core 6 + Angular İle Mini E-Ticaret _ Dosya Yönetimi İçin Storage Altyapısının Atılması. Bu ders bitti ürünler eklenirken hata alıyorduk, hata giderildi. Elhamdülillah sorunsuz çalışıyor.
+
+[33mcommit effb2bddfca78451f0240d0d92a1e2c7b2bb2638[m
+Author: ramazan <eserramazan43@gmail.com>
+Date:   Tue May 14 01:15:48 2024 +0300
+
+    #30- Asp.NET Core 6 + Angular İle Mini E-Ticaret _ Dosya Yönetimi İçin Storage Altyapısının Atılması. Bu ders bitti ürünler eklenirken hata alıyoruz, onu düzeltmemiz gerekecek.
+
+[33mcommit de32c977c43d877b5c5e1d82d2cbc43c0ed1ab6f[m
+Author: ramazan <eserramazan43@gmail.com>
+Date:   Mon May 13 12:59:30 2024 +0300
+
+    #30- Asp.NET Core 6 + Angular İle Mini E-Ticaret _ Dosya Yönetimi İçin Storage Altyapısının Atılması. Bu videonun 22.00 dksı bitti, IStorage imzaları tamamladık, diğer interfacelere ve sınıflara implemente etme işlemi kaldı.
+
+[33mcommit c4c92059fb4a854803046fa9e1ec6457efb3112c[m
+Author: ramazan <eserramazan43@gmail.com>
+Date:   Mon May 13 04:04:11 2024 +0300
+
+    #29- Asp.NET Core 6 + Angular İle Mini E-Ticaret _Table Per Hierarchy Yaklaşımı İle Dosyaların Kaydı. Bu video bitti, resimler veri tabanına kaydedilip wwwroot dizinine başarıyla yüklendi.
+
+[33mcommit 80601a35786e24403fa858e93e60c2b2868a8a8f[m
+Author: ramazan <eserramazan43@gmail.com>
+Date:   Sun May 12 22:51:41 2024 +0300
+
+    #28- Asp.NET Core 6 + Angular İle Mini E-Ticaret _ Dosya İsimlerinin SEO Uyumlu Düzeltilmesi. Bu ders bitti, sorunsuz şekilde ürünler ekleniyor.
+
+[33mcommit 2ca66502e4e8af1c3fea3bb5e449ce46ac662292[m
+Author: ramazan <eserramazan43@gmail.com>
+Date:   Sun May 12 17:33:04 2024 +0300
+
+    #28- Asp.NET Core 6 + Angular İle Mini E-Ticaret _ Dosya İsimlerinin SEO Uyumlu Düzeltilmesi. Bu dersin 35.00 dksına kadar yaptık ancak kodlar hata veriyor, ürün isimlendireme ve eklemede hata var, tekrar gözden geçireceğiz.
+
+[33mcommit ae86e23a04f607089e792e3dffba3f5750cb877e[m
+Author: ramazan <eserramazan43@gmail.com>
+Date:   Sun May 12 02:11:15 2024 +0300
+
+    #27- Asp.NET Core 6 + Angular İle Mini E-Ticaret _ Mimarisel Olarak Fiziksel Dosya Kaydı. Bu video bitti, dosya yükleyip kaydederken ismlendirme bölümü kaldı, deiğer ders devam edeceğiz.
+
+[33mcommit 34d0c247d358cc6dc7322f84ceeeb28a6ce44e80[m
+Author: ramazan <eserramazan43@gmail.com>
+Date:   Sat May 11 13:31:40 2024 +0300
+
+    #25- Asp.NET Core 6 + Angular İle Mini E-Ticaret _ Dosya Yükleme Mekanizmasını Geliştirme. Bu video bitti, backend tarafında da wwwroot klasörü oluşturarak dosya yüklemeyi başardık, her iki  tarafta da sorunsuz çalışıyor şimdilik.
+
+[33mcommit 8638dbf65036ab3539b73d3863fa2fba0b4b21c2[m
+Author: ramazan <eserramazan43@gmail.com>
+Date:   Thu May 9 02:43:49 2024 +0300
+
+    #22- Asp.NET Core 6 + Angular İle Mini E-Ticaret _ Delete Directive İle Silme Operasyonu. Bu bölüm bitti, sorunsuz çalışıyor, güncelliyor.
+
+[33mcommit 75808c203d3ebfbb01e2b978460b1e99fd4dcb25[m
+Author: ramazan <eserramazan43@gmail.com>
+Date:   Wed May 8 17:10:32 2024 +0300
+
+    #21- Asp.NET Core 6 + Angular İle Mini E-Ticaret _ Ürünlerin listelenmesi ve Pagination.Bu video bitti, ürün eklerken stok bilgisi clienttan geri dönüyor, kontrol edip düzelteceğiz, bir de Angularda html tarafında bir metod hatası veriyor, Intellicensein Declare Metod süreciyle düzeltiliyor, metod nereye beyan ediliyor onu araştıracağız.
+
+[33mcommit b7acf0633a5bae6a6dd4452f36da63b6eb0ec5b4[m
+Author: ramazan <eserramazan43@gmail.com>
+Date:   Wed May 8 16:30:24 2024 +0300
+
+    #21- Asp.NET Core 6 + Angular İle Mini E-Ticaret _ Ürünlerin listelenmesi ve Pagination. Bu videonun 1.29.00 dksı bitti, sayfalama sorunsuz çalışıyor. Otomatik güncelliyor.
+
+[33mcommit 2bca39c02d30515e0c77b313c1ca19b8efee8148[m
+Author: ramazan <eserramazan43@gmail.com>
+Date:   Wed May 8 13:04:49 2024 +0300
+
+    #21- Asp.NET Core 6 + Angular İle Mini E-Ticaret _ Ürünlerin listelenmesi ve Pagination. Bu videonun 1.17.45 dksı bitti, sayfada pagination çalışıyoruz.
+
+[33mcommit ec0adae91ba3f442cd3fe534ef857bc17ce067cc[m
+Author: ramazan <eserramazan43@gmail.com>
+Date:   Wed May 8 01:39:23 2024 +0300
+
+    #21- Asp.NET Core 6 + Angular İle Mini E-Ticaret _ Ürünlerin listelenmesi ve Pagination. Bu videonun 1.02.40 dksına kadar olan bölüm bitti, sayfalama yaptık, pagination da çalıştı. Ancak bazı hataar var, düzelteceğiz. Sayfada kaç ürün gösterilmesimi istiyorsak ona göre sayfanın altında seçmemiz  içinayarlamaları yapacağız.
+
+[33mcommit 15247db6f8ea908f8230d49fd9efff5af53528b5[m
+Author: ramazan <eserramazan43@gmail.com>
+Date:   Tue May 7 20:12:59 2024 +0300
+
+    #20- Asp.NET Core 6 + Angular İle Mini E-Ticaret _ Fluent Validation İle ValidationFilter. Bu ders bitti, backendde validation ve filterı kendimiz düzgün şekilde yazdık ve kendi filterımızı oluşturduk, sorunsuz şekilde çalışıyor.
+
+[33mcommit 485e99dc3fecf479ce8460b1170d84b7a2654cfd[m
+Author: ramazan <eserramazan43@gmail.com>
+Date:   Tue May 7 10:40:59 2024 +0300
+
+    #20- Asp.NET Core 6 + Angular İle Mini E-Ticaret _ Fluent Validation İle ValidationFilter. Bu videonun 35.05 dksına kadar bitti kendi ValidationFilter ımızı yazdık ancak henüz demedik, kodlarda hata görünmüyor, deneyeceğiz.
+
+[33mcommit f1c09f83c98815150d02c175a5a2e473f84dadbd[m
+Author: ramazan <eserramazan43@gmail.com>
+Date:   Mon May 6 13:02:05 2024 +0300
+
+    #20- Asp.NET Core 6 + Angular İle Mini E-Ticaret _ Fluent Validation İle ValidationFilter. Bu videonun  29.00 dksına kadar tamamladık, varsayılan filterları devre dışı bıraktırk ve çalışıyor.
+
+[33mcommit 503ecc25755e013a1b9506448525b7311fd3d3ff[m
+Author: ramazan <eserramazan43@gmail.com>
+Date:   Mon May 6 10:41:17 2024 +0300
+
+    #20- Asp.NET Core 6 + Angular İle Mini E-Ticaret _ Fluent Validation İle ValidationFilter. Bu dersin 25.30. dksı bitti. Product validation çlaışıyor.
+
+[33mcommit bd7c9407018f981ab5ab09880ba496e2f9297895[m
+Author: ramazan <eserramazan43@gmail.com>
+Date:   Mon May 6 05:10:13 2024 +0300
+
+    #19- Asp.NET Core 6 + Angular İle Mini E-Ticaret _ Ürün Ekleme İşlemleri - ProductServce. Bu video bitti arayüzden veri ekleme işlemi tamamlandı, sorunsuz çalışıyor.
+
+[33mcommit 39e3a8e42328b6edd44cd40f1ad7b0a7257a7b05[m
+Author: ramazan <eserramazan43@gmail.com>
+Date:   Mon May 6 03:05:35 2024 +0300
+
+    #19- Asp.NET Core 6 + Angular İle Mini E-Ticaret _ Ürün Ekleme İşlemleri - ProductServce Bu videonun 24.00 dksında browserda swagger açılışını durdurmayı anlattı hoca, ben de kapattım, tekrar açmak için aynı bölümü izlemeyi unutmayalım.
+
+[33mcommit 3b3a0a28a6b6836d3c8c6a35475a9e445ec014ac[m
+Author: ramazan <eserramazan43@gmail.com>
+Date:   Sun May 5 01:08:58 2024 +0300
+
+    #18- Asp.NET Core 6 + Angular İle Mini E-Ticaret _ Custom HttpClient Servisi Oluşturmak. Bu dersin 26.50 dksında beacend bölümünden frontende geçtiğimiz yere kadar.
+
+[33mcommit 4c989853e43e53d4c2522da25713044286a6f44a[m
+Author: ramazan <eserramazan43@gmail.com>
+Date:   Sat May 4 23:35:29 2024 +0300
+
+    #18- Asp.NET Core 6 + Angular İle Mini E-Ticaret _ Custom HttpClient Servisi Oluşturmak. Bu dersin 6.50 dksına kadar olan bölüm. Eski verileri silmeden hemen önce, bu committen sonra servis testi için eski verileri siliyoruz.
+
+[33mcommit d9379432ef0b486a34950eb53e5802b3223dd1de[m
+Author: ramazan <eserramazan43@gmail.com>
+Date:   Sun Apr 28 17:02:09 2024 +0300
+
+    8. Dersin sonu,sorunsuz çalışıyor.
+    
+    Mini E-Ticaret | SaveChangeAsync Interceptor
+
+[33mcommit 1f0d5068846d94c8a4f0b56e16bcb383a7f20ea8[m
+Author: ramazan <eserramazan43@gmail.com>
+Date:   Sun Apr 28 16:39:56 2024 +0300
+
+     8. ders 41.25 dk sına kadar ve testin ilk aşaması başarılı.
+    Mini E-Ticaret | SaveChangeAsync Interceptor
+
+[33mcommit 15f53939ad8235f3153c4494c93fbd8609d8db72[m
+Author: ramazan <eserramazan43@gmail.com>
+Date:   Sun Apr 28 16:10:40 2024 +0300
+
+    8. Dersin 31.30 saniyesinden önceki, yani bu bölümün kodlarını test etmeden önceki son commit.  Bazı kodları sileceğimiz için commit attım.
+    
+    Mini E-Ticaret | SaveChangeAsync Interceptor
+
+[33mcommit ef283a6f33b10675436916b69bd9c8c512d022f0[m
+Author: ramazan <eserramazan43@gmail.com>
+Date:   Sun Apr 28 13:10:19 2024 +0300
+
+    7. ders sonu. Mini E-Ticaret | EF Core Tracking Performans Optimizasyonu yapıldı.
+
+[33mcommit 8b4dd7c6f90a572972dbe3d4f0af5a2d23361425[m
+Author: ramazan <eserramazan43@gmail.com>
+Date:   Sun Apr 28 12:15:45 2024 +0300
+
+    Mini E-Ticaret 6. dersin sonu 2. Commit (ServiceRegistration sınıfında AddScoped hatası düzeltildi.)
+
+[33mcommit 4a549599f40701d64909adb2dc5c7500c3b56402[m
+Author: ramazan <eserramazan43@gmail.com>
+Date:   Sun Apr 28 03:28:54 2024 +0300
+
+    Mini E-Ticaret 5. dersin sonu 1. Commit, öncesini commitlemeyi unuttuk.
+
+[33mcommit 7880752e1c0e3d463b63f0930702a21de3e72aa2[m
+Author: ramazan <eserramazan43@gmail.com>
+Date:   Sun Apr 28 03:21:56 2024 +0300
+
+    Add project files.
+
+[33mcommit 51fc0de1d55f0005c6d7fbe03fea144b46ecfcf8[m
+Author: ramazan <eserramazan43@gmail.com>
+Date:   Sun Apr 28 03:21:49 2024 +0300
+
+    Add .gitattributes and .gitignore.
