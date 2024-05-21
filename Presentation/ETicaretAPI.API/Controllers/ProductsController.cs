@@ -6,7 +6,7 @@ using ETicaret.Application.ViewModels.Products;
 using ETicaretAPI.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
-
+using Microsoft.EntityFrameworkCore;
 
 
 namespace ETicaretAPI.API.Controllers
@@ -111,10 +111,11 @@ namespace ETicaretAPI.API.Controllers
             return Ok();
 
         }
+
         [HttpPost("[action]")]
         public async Task<IActionResult> Upload(string id)
         {
-            List<(string fileName, string pathOrContainerName)> result= await _storageService.UploadAsync("photo-images", Request.Form.Files);
+            List<(string fileName, string pathOrContainerName)> result = await _storageService.UploadAsync("photo-images", Request.Form.Files);
 
             Product product = await _productReadRepository.GetByIdAsync(id);
 
@@ -132,16 +133,23 @@ namespace ETicaretAPI.API.Controllers
             //todo ***** Alttaki ve üsttki yöntem resim eklemek için birbirinin alternatifi.
 
             await _productImageFileWriteRepository.AddRangeAsync(result.Select(r => new ProductImageFile
-            {
-                FileName = r.fileName,
-                Path = r.pathOrContainerName,
-                Storage = _storageService.StorageName,
-                Products = new List<Product>() { product }
-            }
+                {
+                    FileName = r.fileName,
+                    Path = r.pathOrContainerName,
+                    Storage = _storageService.StorageName,
+                    Products = new List<Product>() { product }
+                }
             ).ToList());
 
             await _productImageFileWriteRepository.SaveAsync();
             return Ok();
         }
+        [HttpGet("[action]/{id}")]
+        public async Task<IActionResult> GetProductImages(string id)
+        {
+            Product? product = await _productReadRepository.Table.Include(p => p.ProductImageFiles).FirstOrDefaultAsync(p => p.Id == Guid.Parse(id));
+        }
     }
+
+
 }
