@@ -173,6 +173,8 @@ namespace ETicaretAPI.API.Controllers
             return Ok();
         }
 
+        //todo #34- Asp.NET Core 6 + Angular İle Mini E-Ticaret _ CQRS ve Mediator Pattern Üzerine Teorik Anlatım. Bu ders bitti CQRS Design Pattern'in terik altyapısı konuşuldu, artık cu controller sınıfını CQRS e taşıyaşcağız.
+
         /*[HttpDelete("[action]/{id}")]
         public async Task<IActionResult> DeleteProductImage(string id, string imageId)
         {
