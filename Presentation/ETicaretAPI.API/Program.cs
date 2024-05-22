@@ -1,3 +1,4 @@
+using ETicaret.Application;
 using ETicaret.Application.Validators.Products;
 using ETicaretAPI.Persistence;
 using FluentValidation.AspNetCore; //El ile yazdýk, yoksa eletmiyor.
@@ -19,6 +20,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddPersistenceServices();
 builder.Services.AddInfrastructureServices();
+//builder.Services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(LibraryEntrypoint).Assembly));
+
+builder.Services.AddAplicationServices();
 
 //todo alttaki deðiþik kullanýmlar var.
 //builder.Services.AddStorage(StorageType.Azure);
