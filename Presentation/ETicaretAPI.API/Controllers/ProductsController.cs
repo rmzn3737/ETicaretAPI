@@ -6,10 +6,11 @@ using ETicaret.Application.ViewModels.Products;
 using ETicaretAPI.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using ETicaret.Application.Features.Commands.CreateProduct;
-using ETicaret.Application.Features.Queries.GetAllProduct;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using ETicaret.Application.Features.Commands.Product.CreateProduct;
+using ETicaret.Application.Features.Queries.Product.GetAllProduct;
+using ETicaretAPI.Application.Features.Queries.Product.GetByIdProduct;
 
 
 namespace ETicaretAPI.API.Controllers
@@ -78,12 +79,11 @@ namespace ETicaretAPI.API.Controllers
             });*/
         }
 
-        [HttpGet("{id}")]
-
-        public async Task <IActionResult > Get(string id)
+        [HttpGet("{Id}")]
+        public async Task <IActionResult > Get([FromRoute]GetByIdProductQueryRequest getByIdProductQueryRequest)
         {
-            
-            return Ok(await _productReadRepository.GetByIdAsync(id,false));
+            GetByIdProductQueryResponse _getByIdProductQueryResponse= await _mediator.Send(getByIdProductQueryRequest);
+            return Ok(_getByIdProductQueryResponse);
         }
 
         [HttpPost]

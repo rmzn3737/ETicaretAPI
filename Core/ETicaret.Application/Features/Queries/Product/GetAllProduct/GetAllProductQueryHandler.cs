@@ -9,9 +9,9 @@ using ETicaret.Application.RequestParameters;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 
-namespace ETicaret.Application.Features.Queries.GetAllProduct
+namespace ETicaret.Application.Features.Queries.Product.GetAllProduct
 {
-    public class GetAllProductQueryHandler:IRequestHandler<GetAllProductQueryRequest,GetAllProductQueryResponse>
+    public class GetAllProductQueryHandler : IRequestHandler<GetAllProductQueryRequest, GetAllProductQueryResponse>
     {
         readonly IProductReadRepository _productReadRepository;
         public GetAllProductQueryHandler(IProductReadRepository productReadRepository)
@@ -31,7 +31,7 @@ namespace ETicaret.Application.Features.Queries.GetAllProduct
                 p.UpdatedDate
             }).ToList();//Skip(pagination.Page * pagination.Size).Take(pagination.Size);
 
-            return new ()
+            return new()
             {
                 Products = products,
                 TotalCount = totalCount
