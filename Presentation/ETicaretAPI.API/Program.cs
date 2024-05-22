@@ -6,6 +6,13 @@ using ETicaretAPI.Infrastructure;
 using ETicaretAPI.Infrastructure.Enums;
 using ETicaretAPI.Infrastructure.Services.Storage.Azure;
 using ETicaretAPI.Infrastructure.Services.Storage.Local;
+
+using ETicaret.Application.Abstractions.Storage.Local;
+using ETicaretAPI.Infrastructure.Services.Storage.Local;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -30,7 +37,16 @@ builder.Services.AddControllers(options => options.Filters.Add<ValidationFilter>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
 var app = builder.Build();
+
+
+//app.UseEndpoints(endpoints =>
+//{
+//    endpoints.MapControllers();
+//});
+
 
 
 // Configure the HTTP request pipeline.

@@ -1,6 +1,7 @@
 ﻿using ETicaret.Application.Abstractions.Storage.Local;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,9 +14,13 @@ namespace ETicaretAPI.Infrastructure.Services.Storage.Local
     public class LocalStorage :Storage, ILocalStorage
     {
         readonly IWebHostEnvironment _webHostEnvironment;
+
+        //readonly string _storagePath;
+
         public LocalStorage(IWebHostEnvironment webHostEnvironment)
         {
             _webHostEnvironment = webHostEnvironment;
+            //_storagePath = configuration["LocalStorage:Path"];//local dosya yüklemek için local önerisi
         }
         public async Task DeleteAsync(string path, string fileName)
         => File.Delete($"{path}\\{fileName}");
@@ -47,6 +52,8 @@ namespace ETicaretAPI.Infrastructure.Services.Storage.Local
                 throw ex;
             }
         }
+
+
         public async Task<List<(string fileName, string pathOrContainerName)>> UploadAsync(string path, IFormFileCollection files)
         {
             string uploadPath = Path.Combine(_webHostEnvironment.WebRootPath, path);

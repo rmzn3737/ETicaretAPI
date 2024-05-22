@@ -26,10 +26,11 @@ namespace ETicaretAPI.API.Controllers
         readonly IInvoiceFileReadRepository _invoiceFileReadRepository;
         readonly IInvoiceFileWriteRepository _invoiceFileWriteRepository;
         readonly IStorageService _storageService;
+        readonly IConfiguration _configuration;
 
 
 
-        public ProductsController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository, IWebHostEnvironment webHostEnvironment, IFileWriteRepository fileWriteRepository, IFileReadRepository fileReadRepository, IProductImageFileReadRepository productImageFileReadRepository, IProductImageFileWriteRepository productImageFileWriteRepository, IInvoiceFileReadRepository invoiceFileReadRepository, IInvoiceFileWriteRepository invoiceFileWriteRepository, IStorageService storageService)
+        public ProductsController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository, IWebHostEnvironment webHostEnvironment, IFileWriteRepository fileWriteRepository, IFileReadRepository fileReadRepository, IProductImageFileReadRepository productImageFileReadRepository, IProductImageFileWriteRepository productImageFileWriteRepository, IInvoiceFileReadRepository invoiceFileReadRepository, IInvoiceFileWriteRepository invoiceFileWriteRepository, IStorageService storageService, IConfiguration configuration)
         {
             _productWriteRepository = productWriteRepository;
             _productReadRepository = productReadRepository;
@@ -42,6 +43,7 @@ namespace ETicaretAPI.API.Controllers
             _invoiceFileReadRepository = invoiceFileReadRepository;
             _invoiceFileWriteRepository = invoiceFileWriteRepository;
             _storageService = storageService;
+            _configuration = configuration;
         }
 
         [HttpGet]
@@ -144,17 +146,77 @@ namespace ETicaretAPI.API.Controllers
             await _productImageFileWriteRepository.SaveAsync();
             return Ok();
         }
+
+
         [HttpGet("[action]/{id}")]
         public async Task<IActionResult> GetProductImages(string id)
         {
             Product? product = await _productReadRepository.Table.Include(p => p.ProductImageFiles).FirstOrDefaultAsync(p => p.Id == Guid.Parse(id));
-            return Ok(product.ProductImageFiles.Select(p=>new
+            //await Task.Delay(2000); //spinnerın çalışıp çalışmadığını görmek için koymuştuk.
+            return Ok(product.ProductImageFiles.Select(p => new
             {
-                p.Path,
-                p.FileName
+                //Path = $"{_configuration["LocalStorage:Path"]}/{p.Path}", //todo burası Azure bağlanırsak resmin urlini elde ettiğimiz yer. Localde alttaki gibi çalışacağız.
+                //p.Path,
+                Path = $"{_configuration["BaseLocalStorageUrl"]}\\{p.Path}",
+                p.FileName,
+                p.Id
             }));
         }
-    }
 
+        [HttpDelete("[action]/{id}")]
+        public async Task<IActionResult> DeleteProductImage(string id, string imageId)
+        {
+            Product? product = await _productReadRepository.Table.Include(p => p.ProductImageFiles).FirstOrDefaultAsync(p => p.Id == Guid.Parse(id));
+            ProductImageFile productImageFile = product.ProductImageFiles.FirstOrDefault(p => p.Id == Guid.Parse(imageId));
+            product.ProductImageFiles.Remove(productImageFile);
+            await _productWriteRepository.SaveAsync();
+            return Ok();
+        }
+
+        /*[HttpDelete("[action]/{id}")]
+        public async Task<IActionResult> DeleteProductImage(string id, string imageId)
+        {
+            Product? product = await _productReadRepository.Table.Include(p => p.ProductImageFiles)
+                .FirstOrDefaultAsync(p => p.Id == Guid.Parse(id));
+
+            ProductImageFile productImageFile = product.ProductImageFiles.FirstOrDefault(p => p.Id == Guid.Parse(imageId));
+            product.ProductImageFiles.Remove(productImageFile);
+            await _productWriteRepository.SaveAsync();
+            return Ok();
+        }*/
+
+        #region LocalStorage için Chat gPT önerisi metod.
+
+        //[HttpGet("[action]/{id}")]
+        //public IActionResult GetProductImagesTwo(string productId)
+        //{
+        //    var images = new List<ImageModel>
+        //    {
+        //        new ImageModel { Path = "wwwroot/photo-images/translatedimagetr-3.png", FileName = "translatedimagetr-3.png" },
+        //        new ImageModel { Path = "wwwroot/photo-images/KiRAZ.jpg", FileName = "KiRAZ.jpg" },
+        //        new ImageModel { Path = "wwwroot/photo-images/translatedimageen.png", FileName = "translatedimageen.png" }
+        //    };
+
+        //    var baseUrl = $"{Request.Scheme}://{Request.Host.Value}";
+        //    var imageUrls = images.Select(image => new
+        //    {
+        //        Url = $"{baseUrl}/{image.Path.Replace("wwwroot/", "")}",
+        //        image.FileName
+        //    });
+
+        //    return Ok(imageUrls);
+        //}
+
+        //public class ImageModel
+        //{
+        //    public string Path { get; set; }
+        //    public string FileName { get; set; }
+        //}
+        #endregion
+
+
+
+
+    }
 
 }
