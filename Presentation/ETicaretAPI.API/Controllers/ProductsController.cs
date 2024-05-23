@@ -9,6 +9,8 @@ using System.Net;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ETicaret.Application.Features.Commands.Product.CreateProduct;
+using ETicaret.Application.Features.Commands.Product.RemoveProduct;
+using ETicaret.Application.Features.Commands.Product.UpdateProduct;
 using ETicaret.Application.Features.Queries.Product.GetAllProduct;
 using ETicaretAPI.Application.Features.Queries.Product.GetByIdProduct;
 
@@ -94,22 +96,17 @@ namespace ETicaretAPI.API.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(VM_Update_Product model) //Update
+        public async Task<IActionResult> Put([FromBody]UpdateProductCommandRequest updateProductCommandRequest) //Update
         {
-            Product product = await _productReadRepository.GetByIdAsync(model.Id);
-            product.Stock = model.Stock;
-            product.Price = model.Price;
-            product.Name    = model.Name;
-            await _productWriteRepository.SaveAsync();
+            UpdateProductCommandResponse updateProductCommandResponse = await _mediator.Send(updateProductCommandRequest);
             return Ok();
         }
-        [HttpDelete("{id}")]
-        public async Task <IActionResult> Delete(string id)
+        
+        [HttpDelete("{Id}")]
+        public async Task <IActionResult> Delete([FromRoute]RemoveProductCommandRequest removeProductCommandRequest)
         {
-            await _productWriteRepository.RemoveAsync(id);
-            await _productWriteRepository.SaveAsync();
+             RemoveProductCommandResponse removeProductCommandResponse = await _mediator.Send(removeProductCommandRequest);
             return Ok();
-
         }
 
         [HttpPost("[action]")]
