@@ -44,3 +44,35 @@ namespace ETicaret.Application.Features.Commands.ProductImageFile.UploadProductI
         }
     }
 }
+
+#region Burası bizim ilgili metod idi, bilgilendirmeler olduğu için silmedim ancak hocanın handlerı kullanıyoruz.
+/*
+List<(string fileName, string pathOrContainerName)> result = await _storageService.UploadAsync("photo-images", Request.Form.Files);
+
+Product product = await _productReadRepository.GetByIdAsync(id);
+
+//foreach (var r in result)
+//{
+//product.ProductImageFiles.Add(new()
+//{
+//FileName = r.fileName,
+//Path = r.pathOrContainerName,
+//Storage = _storageService.StorageName,
+//Products = new List<Product>() { product }
+//});
+//}
+
+//todo ***** Alttaki ve üsttki yöntem resim eklemek için birbirinin alternatifi.
+
+await _productImageFileWriteRepository.AddRangeAsync(result.Select(r => new ProductImageFile
+    {
+        FileName = r.fileName,
+        Path = r.pathOrContainerName,
+        Storage = _storageService.StorageName,
+        Products = new List<Product>() { product }
+    }
+).ToList());
+
+await _productImageFileWriteRepository.SaveAsync();
+*/
+#endregion

@@ -13,6 +13,7 @@ using ETicaret.Application.Features.Commands.Product.RemoveProduct;
 using ETicaret.Application.Features.Commands.Product.UpdateProduct;
 using ETicaret.Application.Features.Queries.Product.GetAllProduct;
 using ETicaretAPI.Application.Features.Queries.Product.GetByIdProduct;
+using ETicaret.Application.Features.Commands.ProductImageFile.UploadProductImage;
 
 
 namespace ETicaretAPI.API.Controllers
@@ -109,40 +110,16 @@ namespace ETicaretAPI.API.Controllers
             return Ok();
         }
 
+        
         [HttpPost("[action]")]
-        public async Task<IActionResult> Upload(string id)
+        public async Task<IActionResult> Upload([FromForm] UploadProductImageCommandRequest uploadProductImageCommandRequest)
         {
-            List<(string fileName, string pathOrContainerName)> result = await _storageService.UploadAsync("photo-images", Request.Form.Files);
-
-            Product product = await _productReadRepository.GetByIdAsync(id);
-
-            //foreach (var r in result)
-            //{
-            //product.ProductImageFiles.Add(new()
-            //{
-            //FileName = r.fileName,
-            //Path = r.pathOrContainerName,
-            //Storage = _storageService.StorageName,
-            //Products = new List<Product>() { product }
-            //});
-            //}
-
-            //todo ***** Alttaki ve üsttki yöntem resim eklemek için birbirinin alternatifi.
-
-            await _productImageFileWriteRepository.AddRangeAsync(result.Select(r => new ProductImageFile
-                {
-                    FileName = r.fileName,
-                    Path = r.pathOrContainerName,
-                    Storage = _storageService.StorageName,
-                    Products = new List<Product>() { product }
-                }
-            ).ToList());
-
-            await _productImageFileWriteRepository.SaveAsync();
+            await _mediator.Send(uploadProductImageCommandRequest);
             return Ok();
         }
 
 
+        
         [HttpGet("[action]/{id}")]
         public async Task<IActionResult> GetProductImages(string id)
         {
