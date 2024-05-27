@@ -6,11 +6,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ETicaretAPI.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace ETicaretAPI.Persistence.Contexts
 {
-    public class ETicaretAPIDbContext : IdentityDbContext
+    public class ETicaretAPIDbContext : IdentityDbContext<AppUser,AppRole,string>
     {
         public ETicaretAPIDbContext(DbContextOptions options) : base(options)
         {

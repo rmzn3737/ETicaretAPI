@@ -9,14 +9,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ETicaret.Application.Repositories;
+using ETicaretAPI.Domain.Entities.Identity;
 using ETicaretAPI.Persistence.Repositories;
 
 namespace ETicaretAPI.Persistence
 {
     public static class ServiceRegistration
     {
-        public static void AddPersistenceServices(this IServiceCollection services) 
+        public static void AddPersistenceServices(this IServiceCollection services)
         {
+            services.AddIdentity<AppUser, AppRole>(options =>
+            {
+                options.Password.RequiredLength = 3;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireDigit=false;
+                options.Password.RequireLowercase=false;
+                options.Password.RequireUppercase=false;
+
+            }).AddEntityFrameworkStores<ETicaretAPIDbContext>();
             //services.AddSingleton<IProductService, ProductService>();
             services.AddDbContext<ETicaretAPIDbContext>(options => options.UseNpgsql(Configuration.ConnectionString));
             services.AddScoped<ICustomerReadRepository,CustomerReadRepository>();
