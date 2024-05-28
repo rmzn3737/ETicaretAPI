@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ETicaret.Application.Abstractions.Token;
+using ETicaret.Application.DTOs;
 using ETicaret.Application.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -13,11 +15,14 @@ namespace ETicaret.Application.Features.Commands.AppUser.LoginUser
     {
         readonly UserManager<ETicaretAPI.Domain.Entities.Identity.AppUser> _userManager;
         readonly SignInManager<ETicaretAPI.Domain.Entities.Identity.AppUser> _signInManager;
+        private readonly ITokenHandler _tokenHandler;
 
-        public LoginUserCommandHandler(UserManager<ETicaretAPI.Domain.Entities.Identity.AppUser> userManager, SignInManager<ETicaretAPI.Domain.Entities.Identity.AppUser> signInManager)
+        public LoginUserCommandHandler(UserManager<ETicaretAPI.Domain.Entities.Identity.AppUser> userManager, SignInManager<ETicaretAPI.Domain.Entities.Identity.AppUser> signInManager, 
+            ITokenHandler tokenHandler)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _tokenHandler = tokenHandler;
         }
 
         public async Task<LoginUserCommandResponse> Handle(LoginUserCommandRequest request, CancellationToken cancellationToken)
@@ -30,7 +35,12 @@ namespace ETicaret.Application.Features.Commands.AppUser.LoginUser
             SignInResult signInResult = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
             if (signInResult.Succeeded)//Authentication başarılı.
             {
+              Token token =  _tokenHandler.CreateAccessToken(5);
                 //todo aslında burada yetkileri belirlememmiz gerekiyor.
+                return new()
+                {
+                    Token = token
+                };
             }
             return new ();
         }

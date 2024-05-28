@@ -8,6 +8,6 @@ namespace ETicaret.Application.Abstractions.Token
 {
     public interface ITokenHandler
     {
-        void CreateAccessToken();
+        DTOs.Token CreateAccessToken(int minute);
     }
 }
