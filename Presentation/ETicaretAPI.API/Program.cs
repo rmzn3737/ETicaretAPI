@@ -1,3 +1,4 @@
+using System.Text;
 using ETicaret.Application;
 using ETicaret.Application.Validators.Products;
 using ETicaretAPI.Persistence;
@@ -51,9 +52,9 @@ builder.Services.AddAuthentication("Admin")
             ValidateIssuerSigningKey = true,//Üretilecek token deðerinin uygulamamýza ait olduðunu ifade eden security key deðerinin doðrulanmasýdýr.
             ValidateLifetime = true,//Oluþturulan token deðerinin süresini kontrol edecek doðrulamadýr.
 
-            ValidAudience = "www.bilmemne.com",
-            ValidIssuer = "www.myapi.com",
-            IssuerSigningKey= new SymmetricSecurityKey();
+            ValidAudience = builder.Configuration["Token:Audience"],
+            ValidIssuer = builder.Configuration["Token:Issuer"],
+            IssuerSigningKey= new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Token:SecurityKey"))
         };
     });
 
