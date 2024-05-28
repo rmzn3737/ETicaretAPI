@@ -13,6 +13,7 @@ using ETicaretAPI.Infrastructure.Services.Storage.Local;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +41,21 @@ builder.Services.AddControllers(options => options.Filters.Add<ValidationFilter>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAuthentication("Admin")
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new()
+        {
+            ValidateAudience = true,//Oluþturulacak token deðerini kimlerin/hangi orijinlerin/sitelerin kullancaðýný belirlediðimiz deðerdir. --->www.bilmemne.com
+            ValidateIssuer = true,//Oluþturulacak token deðerini kimin daðýttýðýný ifade edeceðimiz alandýr.--->www.myapi.com
+            ValidateIssuerSigningKey = true,//Üretilecek token deðerinin uygulamamýza ait olduðunu ifade eden security key deðerinin doðrulanmasýdýr.
+            ValidateLifetime = true,//Oluþturulan token deðerinin süresini kontrol edecek doðrulamadýr.
+
+            ValidAudience = "www.bilmemne.com",
+            ValidIssuer = "www.myapi.com",
+            IssuerSigningKey= new SymmetricSecurityKey();
+        };
+    });
 
 //builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
