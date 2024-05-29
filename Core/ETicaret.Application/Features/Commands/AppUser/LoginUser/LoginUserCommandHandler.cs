@@ -31,18 +31,22 @@ namespace ETicaret.Application.Features.Commands.AppUser.LoginUser
             if (user == null)
                 user = await _userManager.FindByEmailAsync(request.UserNameOrEmail);
             if (user == null)
-                throw new NotFoundUserException("Kullanıcı adı ya da Email hatalı...");
+                throw new NotFoundUserException();
             SignInResult signInResult = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
             if (signInResult.Succeeded)//Authentication başarılı.
             {
               Token token =  _tokenHandler.CreateAccessToken(5);
                 //todo aslında burada yetkileri belirlememmiz gerekiyor.
-                return new()
+                return new LoginUserSuccessCommandResponse()
                 {
                     Token = token
                 };
             }
-            return new ();
+            //return new LoginUserErrorCommandResponse()
+            //{
+            //    Message = "Kullanıcı adı veya şifre hatalı..."
+            //};
+            throw new AuthenticationErrorException();
         }
     }
 }
