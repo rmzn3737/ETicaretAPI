@@ -9,12 +9,14 @@ using ETicaretAPI.Application.Features.Queries.Product.GetByIdProduct;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace ETicaretAPI.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Admin")]
     public class ProductsController : ControllerBase
     {
         /*readonly private IProductWriteRepository _productWriteRepository;//private readonly IProductService _productService;

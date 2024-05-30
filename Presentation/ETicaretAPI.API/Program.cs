@@ -1,76 +1,149 @@
-using System.Text;
-using ETicaret.Application;
+ï»¿//using System.Text;
+//using ETicaret.Application;
+//using ETicaret.Application.Validators.Products;
+//using ETicaretAPI.Persistence;
+//using FluentValidation.AspNetCore; //El ile yazdÄ±k, yoksa eletmiyor.
+//using ETicaretAPI.Infrastructure.Filters;
+//using ETicaretAPI.Infrastructure;
+//using ETicaretAPI.Infrastructure.Enums;
+//using ETicaretAPI.Infrastructure.Services.Storage.Azure;
+//using ETicaretAPI.Infrastructure.Services.Storage.Local;
+
+//using ETicaret.Application.Abstractions.Storage.Local;
+//using ETicaretAPI.Infrastructure.Services.Storage.Local;
+//using Microsoft.AspNetCore.Authentication.JwtBearer;
+//using Microsoft.Extensions.Configuration;
+//using Microsoft.Extensions.DependencyInjection;
+//using Microsoft.Extensions.Hosting;
+//using Microsoft.IdentityModel.Tokens;
+
+//var builder = WebApplication.CreateBuilder(args);
+
+//// Add services to the container.
+
+//builder.Services.AddPersistenceServices();
+//builder.Services.AddInfrastructureServices();
+////builder.Services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(LibraryEntrypoint).Assembly));
+
+//builder.Services.AddAplicationServices();
+
+////todo alttaki deÄŸiÅŸik kullanÄ±mlar var.
+////builder.Services.AddStorage(StorageType.Azure);
+//builder.Services.AddStorage<LocalStorage>();
+////builder.Services.AddStorage<AzureStorage>();
+////builder.Services.AddStorage(ETicaretAPI.Infrastructure.Enums.StorageType.Local);
+//builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
+
+//    //policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()//Her yerden gelen istekler.
+//    policy.WithOrigins("http://localhost:4200", "https://localhost:4200").AllowAnyHeader().AllowAnyMethod()
+//));
+//builder.Services.AddControllers(options => options.Filters.Add<ValidationFilter>())
+//    .AddFluentValidation(configuration => configuration.RegisterValidatorsFromAssemblyContaining<CreateProductValidator>())
+//    .ConfigureApiBehaviorOptions(options => options.SuppressModelStateInvalidFilter=true);
+//// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+//builder.Services.AddEndpointsApiExplorer();
+//builder.Services.AddSwaggerGen();
+//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+//    .AddJwtBearer("Admin",options =>
+//    {
+//        options.TokenValidationParameters = new()
+//        {
+//            ValidateAudience = true,//OluÅŸturulacak token deÄŸerini kimlerin/hangi orijinlerin/sitelerin kullancaÄŸÄ±nÄ± belirlediÄŸimiz deÄŸerdir. --->www.bilmemne.com
+//            ValidateIssuer = true,//OluÅŸturulacak token deÄŸerini kimin daÄŸÄ±ttÄ±ÄŸÄ±nÄ± ifade edeceÄŸimiz alandÄ±r.--->www.myapi.com
+//            ValidateIssuerSigningKey = true,//Ãœretilecek token deÄŸerinin uygulamamÄ±za ait olduÄŸunu ifade eden security key deÄŸerinin doÄŸrulanmasÄ±dÄ±r.
+//            ValidateLifetime = true,//OluÅŸturulan token deÄŸerinin sÃ¼resini kontrol edecek doÄŸrulamadÄ±r.
+
+//            ValidAudience = builder.Configuration["Token:Audience"],
+//            ValidIssuer = builder.Configuration["Token:Issuer"],
+//            IssuerSigningKey= new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Token:SecurityKey"))
+//        };
+//    });
+
+////builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
+//var app = builder.Build();
+
+
+////app.UseEndpoints(endpoints =>
+////{
+////    endpoints.MapControllers();
+////});
+
+
+
+//// Configure the HTTP request pipeline.
+//if (app.Environment.IsDevelopment())
+//{
+//    app.UseSwagger();
+//    app.UseSwaggerUI();
+//}
+
+//app.UseStaticFiles();
+//app.UseCors();
+//app.UseHttpsRedirection();
+//app.UseAuthentication();
+//app.UseAuthorization();
+
+//app.MapControllers();
+
+//app.Run();
+
+//**************//
 using ETicaret.Application.Validators.Products;
-using ETicaretAPI.Persistence;
-using FluentValidation.AspNetCore; //El ile yazdýk, yoksa eletmiyor.
-using ETicaretAPI.Infrastructure.Filters;
+using ETicaretAPI.Application;
+using ETicaret.Application.Validators.Products;
 using ETicaretAPI.Infrastructure;
-using ETicaretAPI.Infrastructure.Enums;
+using ETicaretAPI.Infrastructure.Filters;
 using ETicaretAPI.Infrastructure.Services.Storage.Azure;
 using ETicaretAPI.Infrastructure.Services.Storage.Local;
-
-using ETicaret.Application.Abstractions.Storage.Local;
-using ETicaretAPI.Infrastructure.Services.Storage.Local;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using ETicaretAPI.Persistence;
+using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using ETicaret.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddPersistenceServices();
 builder.Services.AddInfrastructureServices();
-//builder.Services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(LibraryEntrypoint).Assembly));
+builder.Services.AddApplicationServices();
+//builder.Services.AddAplicationServices();
 
-builder.Services.AddAplicationServices();
+//builder.Services.AddStorage<LocalStorage>();
+builder.Services.AddStorage<AzureStorage>();
+//builder.Services.AddStorage();
 
-//todo alttaki deðiþik kullanýmlar var.
-//builder.Services.AddStorage(StorageType.Azure);
-builder.Services.AddStorage<LocalStorage>();
-//builder.Services.AddStorage<AzureStorage>();
-//builder.Services.AddStorage(ETicaretAPI.Infrastructure.Enums.StorageType.Local);
 builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
-
-    //policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()//Her yerden gelen istekler.
     policy.WithOrigins("http://localhost:4200", "https://localhost:4200").AllowAnyHeader().AllowAnyMethod()
 ));
+
 builder.Services.AddControllers(options => options.Filters.Add<ValidationFilter>())
     .AddFluentValidation(configuration => configuration.RegisterValidatorsFromAssemblyContaining<CreateProductValidator>())
-    .ConfigureApiBehaviorOptions(options => options.SuppressModelStateInvalidFilter=true);
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+    .ConfigureApiBehaviorOptions(options => options.SuppressModelStateInvalidFilter = true);
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddAuthentication("Admin")
-    .AddJwtBearer(options =>
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer("Admin", options =>
     {
         options.TokenValidationParameters = new()
         {
-            ValidateAudience = true,//Oluþturulacak token deðerini kimlerin/hangi orijinlerin/sitelerin kullancaðýný belirlediðimiz deðerdir. --->www.bilmemne.com
-            ValidateIssuer = true,//Oluþturulacak token deðerini kimin daðýttýðýný ifade edeceðimiz alandýr.--->www.myapi.com
-            ValidateIssuerSigningKey = true,//Üretilecek token deðerinin uygulamamýza ait olduðunu ifade eden security key deðerinin doðrulanmasýdýr.
-            ValidateLifetime = true,//Oluþturulan token deðerinin süresini kontrol edecek doðrulamadýr.
+            ValidateAudience = true, //Oluï¿½turulacak token deï¿½erini kimlerin/hangi originlerin/sitelerin kullanï¿½cï¿½ belirlediï¿½imiz deï¿½erdir. -> www.bilmemne.com
+            ValidateIssuer = true, //Oluï¿½turulacak token deï¿½erini kimin daï¿½ï¿½ttï¿½nï¿½ ifade edeceï¿½imiz alandï¿½r. -> www.myapi.com
+            ValidateLifetime = true, //Oluï¿½turulan token deï¿½erinin sï¿½resini kontrol edecek olan doï¿½rulamadï¿½r.
+            ValidateIssuerSigningKey = true, //ï¿½retilecek token deï¿½erinin uygulamamï¿½za ait bir deï¿½er olduï¿½unu ifade eden suciry key verisinin doï¿½rulanmasï¿½dï¿½r.
 
             ValidAudience = builder.Configuration["Token:Audience"],
             ValidIssuer = builder.Configuration["Token:Issuer"],
-            IssuerSigningKey= new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Token:SecurityKey"))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Token:SecurityKey"]))
         };
     });
 
-//builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-
 var app = builder.Build();
 
-
-//app.UseEndpoints(endpoints =>
-//{
-//    endpoints.MapControllers();
-//});
-
-
-
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -81,6 +154,7 @@ app.UseStaticFiles();
 app.UseCors();
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

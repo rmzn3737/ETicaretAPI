@@ -35,7 +35,7 @@ namespace ETicaretAPI.Infrastructure.Services.Token
                 issuer: _configuration["Token:Issuer"],
                 expires: token.Expiration,
                 notBefore: DateTime.UtcNow, //Üretildiği anda devreye girsin.
-                signingCredentials: signingCredentials
+                signingCredentials: signingCredentials);
 
             //Token oluşturucu sınıfından bir örnek alalım.
             JwtSecurityTokenHandler tokenHandler =new ();
