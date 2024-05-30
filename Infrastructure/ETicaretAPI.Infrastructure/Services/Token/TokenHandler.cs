@@ -10,7 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace ETicaretAPI.Infrastructure.Services.Token
 {
-    public class TokenHandler:ITokenHandler
+    public class TokenHandler : ITokenHandler
     {
         readonly IConfiguration _configuration;
 
@@ -21,12 +21,12 @@ namespace ETicaretAPI.Infrastructure.Services.Token
 
         public ETicaret.Application.DTOs.Token CreateAccessToken(int minute)
         {
-            ETicaret.Application.DTOs.Token token = new ();
+            ETicaret.Application.DTOs.Token token = new();
             //SecurityKey in simetriğini alıyoruz.
             SymmetricSecurityKey securityKey = new(Encoding.UTF8.GetBytes(_configuration["Token:SecurityKey"]));
 
             //Şifrelenmiş kimliği oluşturuyoruz.
-            SigningCredentials signingCredentials = new(securityKey,SecurityAlgorithms.HmacSha256);
+            SigningCredentials signingCredentials = new(securityKey, SecurityAlgorithms.HmacSha256);
 
             //Oluşturulacak token ayarlarını veriyoruz.
             token.Expiration = DateTime.UtcNow.AddMinutes(minute);
@@ -38,9 +38,59 @@ namespace ETicaretAPI.Infrastructure.Services.Token
                 signingCredentials: signingCredentials);
 
             //Token oluşturucu sınıfından bir örnek alalım.
-            JwtSecurityTokenHandler tokenHandler =new ();
+            JwtSecurityTokenHandler tokenHandler = new();
             token.AccessToken = tokenHandler.WriteToken(securityToken);
             return token;
         }
     }
 }
+
+
+//*******************//
+//using System;
+//using System.Collections.Generic;
+//using System.IdentityModel.Tokens.Jwt;
+//using System.Linq;
+//using System.Text;
+//using System.Threading.Tasks;
+//using ETicaret.Application.Abstractions.Token;
+//using Microsoft.Extensions.Configuration;
+//using Microsoft.IdentityModel.Tokens;
+
+//namespace ETicaretAPI.Infrastructure.Services.Token
+//{
+//    public class TokenHandler : ITokenHandler
+//    {
+//        readonly IConfiguration _configuration;
+
+//        public TokenHandler(IConfiguration configuration)
+//        {
+//            _configuration = configuration;
+//        }
+
+//        public ETicaret.Application.DTOs.Token CreateAccessToken(int minute)
+//        {
+//            ETicaret.Application.DTOs.Token token = new();
+//            //SecurityKey in simetriğini alıyoruz.
+//            SymmetricSecurityKey securityKey = new(Encoding.UTF8.GetBytes(_configuration["Token:SecurityKey"]));
+
+//            //Şifrelenmiş kimliği oluşturuyoruz.
+//            SigningCredentials signingCredentials = new(securityKey, SecurityAlgorithms.HmacSha256);
+
+//            //Oluşturulacak token ayarlarını veriyoruz.
+//            token.Expiration = DateTime.UtcNow.AddMinutes(minute);
+//            JwtSecurityToken securityToken = new(
+//                audience: _configuration["Token:Audience"],
+//                issuer: _configuration["Token:Issuer"],
+//                expires: token.Expiration,
+//                notBefore: DateTime.UtcNow, //Üretildiği anda devreye girsin.
+//                signingCredentials: signingCredentials);
+
+//            //Token oluşturucu sınıfından bir örnek alalım.
+//            JwtSecurityTokenHandler tokenHandler = new();
+//            token.AccessToken = tokenHandler.WriteToken(securityToken);
+//            return token;
+//        }
+//    }
+//}
+
