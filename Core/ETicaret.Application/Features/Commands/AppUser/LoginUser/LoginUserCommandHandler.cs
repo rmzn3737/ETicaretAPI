@@ -35,7 +35,7 @@ namespace ETicaret.Application.Features.Commands.AppUser.LoginUser
             SignInResult signInResult = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
             if (signInResult.Succeeded)//Authentication başarılı.
             {
-                Token token = _tokenHandler.CreateAccessToken(5);
+                Token token = _tokenHandler.CreateAccessToken(30);
                 //todo aslında burada yetkileri belirlememmiz gerekiyor.
                 return new LoginUserSuccessCommandResponse()
                 {

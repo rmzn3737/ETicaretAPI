@@ -17,6 +17,7 @@ namespace ETicaretAPI.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(AuthenticationSchemes = "Admin")]
+
     public class ProductsController : ControllerBase
     {
         /*readonly private IProductWriteRepository _productWriteRepository;//private readonly IProductService _productService;
@@ -193,8 +194,11 @@ namespace ETicaretAPI.API.Controllers
         //}
         #endregion
 
-
-
+        //[HttpGet("get")]
+        //public string Get()
+        //{
+        //    return "get";
+        //}
 
     }
 

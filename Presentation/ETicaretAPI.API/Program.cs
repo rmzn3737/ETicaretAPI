@@ -43,6 +43,7 @@ builder.Services.AddControllers(options => options.Filters.Add<ValidationFilter>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer("Admin", options =>
     {
@@ -50,12 +51,24 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         {
             ValidateAudience = true,//Oluşturulacak token değerini kimlerin/hangi orijinlerin/sitelerin kullancağını belirlediğimiz değerdir. --->www.bilmemne.com
             ValidateIssuer = true,//Oluşturulacak token değerini kimin dağıttığını ifade edeceğimiz alandır.--->www.myapi.com
-            ValidateIssuerSigningKey = true,//Üretilecek token değerinin uygulamamıza ait olduğunu ifade eden security key değerinin doğrulanmasıdır.
+
             ValidateLifetime = true,//Oluşturulan token değerinin süresini kontrol edecek doğrulamadır.
+            ValidateIssuerSigningKey = true,//Üretilecek token değerinin uygulamamıza ait olduğunu ifade eden security key değerinin doğrulanmasıdır.
+            
+            //ClockSkew = TimeSpan.Zero,
 
             ValidAudience = builder.Configuration["Token:Audience"],
             ValidIssuer = builder.Configuration["Token:Issuer"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Token:SecurityKey"))
+            LifetimeValidator = (notBefore, expires, token, parameters) =>
+            {
+                // Burada kendi özel doğrulama mantığınızı yazabilirsiniz.
+                if (expires != null)
+                {
+                    return expires > DateTime.UtcNow.AddHours(3);
+                }
+                return false;
+            },
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Token:SecurityKey"]))
         };
     });
 
@@ -81,6 +94,7 @@ if (app.Environment.IsDevelopment())
 app.UseStaticFiles();
 app.UseCors();
 app.UseHttpsRedirection();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
