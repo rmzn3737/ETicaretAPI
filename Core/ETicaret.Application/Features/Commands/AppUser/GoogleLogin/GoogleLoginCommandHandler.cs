@@ -31,6 +31,7 @@ namespace ETicaret.Application.Features.Commands.AppUser.GoogleLogin
             var payload = await GoogleJsonWebSignature.ValidateAsync(request.IdToken,settings);
             var info= new UserLoginInfo(request.Provider, payload.Subject,request.Provider);
             ETicaretAPI.Domain.Entities.Identity.AppUser user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
+
             bool result = user != null;
             if (user == null)
             {
