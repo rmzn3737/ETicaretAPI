@@ -26,7 +26,11 @@ namespace ETicaret.Application.Features.Commands.AppUser.GoogleLogin
         {
             var settings = new GoogleJsonWebSignature.ValidationSettings()
             {
-                Audience = new List<string> { "394522923487-gmcqd6gsp8ja657ic35pv3711md6k44p.apps.googleusercontent.com" }
+                Audience = new List<string>
+                {
+                    "394522923487-gmcqd6gsp8ja657ic35pv3711md6k44p.apps.googleusercontent.com"
+                }
+                //Audience = new List<string> { "394522923487-gmcqd6gsp8ja657ic35pv3711md6k44p.apps.googleusercontent.com" }
             };
             var payload = await GoogleJsonWebSignature.ValidateAsync(request.IdToken,settings);
             var info= new UserLoginInfo(request.Provider, payload.Subject,request.Provider);
