@@ -61,6 +61,7 @@ namespace ETicaret.Application.Features.Commands.AppUser.GoogleLogin
                 throw new Exception("Invalid external authentication.");
 
             Token token = _tokenHandler.CreateAccessToken(30);
+
             return new()
             {
                 Token = token

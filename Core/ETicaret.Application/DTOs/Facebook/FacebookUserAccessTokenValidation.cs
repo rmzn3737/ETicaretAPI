@@ -1,0 +1,26 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.Json.Serialization;
+using System.Threading.Tasks;
+
+namespace ETicaret.Application.DTOs.Facebook
+{
+    internal class FacebookUserAccessTokenValidation
+    {
+        [JsonPropertyName("data")]
+        public FacebookUserAccessTokenValidationData Data { get; set; }
+    }
+
+    public class FacebookUserAccessTokenValidationData
+    {
+        [JsonPropertyName("is_valid")]
+        public bool IsValid { get; set; }
+        [JsonPropertyName("user_id")]
+        public string UserId { get; set; }
+    }
+    /*
+      {"data":{"app_id":"8051595048197662","type":"USER","application":"Mini E-Ticaret","data_access_expires_at":1725671340,"expires_at":1717902000,"is_valid":true,"scopes":["email","public_profile"],"user_id":"988489166316424"}}
+     */
+}

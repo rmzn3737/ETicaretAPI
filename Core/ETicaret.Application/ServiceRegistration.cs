@@ -15,6 +15,7 @@ namespace ETicaret.Application
         {
             collection.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
             //collection.AddMediatR(typeof(ServiceRegistration));
+            collection.AddHttpClient();
         }
     }
 }
