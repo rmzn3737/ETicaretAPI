@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ETicaret.Application.Abstractions.Services;
 using ETicaret.Application.Abstractions.Token;
 using ETicaret.Application.DTOs;
 using ETicaret.Application.Exceptions;
@@ -13,7 +14,7 @@ namespace ETicaret.Application.Features.Commands.AppUser.LoginUser
 {
     public class LoginUserCommandHandler : IRequestHandler<LoginUserCommandRequest, LoginUserCommandResponse>
     {
-        readonly UserManager<ETicaretAPI.Domain.Entities.Identity.AppUser> _userManager;
+        /*readonly UserManager<ETicaretAPI.Domain.Entities.Identity.AppUser> _userManager;
         readonly SignInManager<ETicaretAPI.Domain.Entities.Identity.AppUser> _signInManager;
         private readonly ITokenHandler _tokenHandler;
 
@@ -24,10 +25,22 @@ namespace ETicaret.Application.Features.Commands.AppUser.LoginUser
             _signInManager = signInManager;
             _tokenHandler = tokenHandler;
         }
+*/
+        readonly IAuthService _authService;
+
+        public LoginUserCommandHandler(IAuthService authService)
+        {
+            _authService = authService;
+        }
 
         public async Task<LoginUserCommandResponse> Handle(LoginUserCommandRequest request, CancellationToken cancellationToken)
         {
-            ETicaretAPI.Domain.Entities.Identity.AppUser user = await _userManager.FindByNameAsync(request.UserNameOrEmail);
+            var token = await _authService.LoginAsync(request.UserNameOrEmail, request.Password,15);
+            return new LoginUserSuccessCommandResponse()
+            {
+                Token = token
+            };
+            /*ETicaretAPI.Domain.Entities.Identity.AppUser user = await _userManager.FindByNameAsync(request.UserNameOrEmail);
             if (user == null)
                 user = await _userManager.FindByEmailAsync(request.UserNameOrEmail);
             if (user == null)
@@ -46,7 +59,7 @@ namespace ETicaret.Application.Features.Commands.AppUser.LoginUser
             //{
             //    Message = "Kullanıcı adı veya şifre hatalı..."
             //};
-            throw new AuthenticationErrorException();
+            throw new AuthenticationErrorException();*/
         }
     }
 }

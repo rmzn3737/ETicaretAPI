@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using ETicaret.Application.Abstractions.Services;
 using ETicaret.Application.Abstractions.Token;
 using ETicaret.Application.DTOs;
 using ETicaret.Application.DTOs.Facebook;
@@ -10,7 +11,7 @@ namespace ETicaret.Application.Features.Commands.AppUser.FacebookLogin
 {
     public class FacebookLoginCommandHandler:IRequestHandler<FacebookLoginCommandRequest,FacebookLoginCommandResponse>
     {
-        readonly UserManager<ETicaretAPI.Domain.Entities.Identity.AppUser> _userManager;
+        /*readonly UserManager<ETicaretAPI.Domain.Entities.Identity.AppUser> _userManager;
         readonly ITokenHandler _tokenHandler;
         readonly HttpClient _httpClient;
 
@@ -19,19 +20,30 @@ namespace ETicaret.Application.Features.Commands.AppUser.FacebookLogin
             _userManager = userManager;
             _tokenHandler = tokenHandler;
             _httpClient = httpClientFactory.CreateClient();
+        }*/
+        readonly IAuthService _authService;
+
+        public FacebookLoginCommandHandler(IAuthService authService)
+        {
+            _authService = authService;
         }
 
         public async Task<FacebookLoginCommandResponse> Handle(FacebookLoginCommandRequest request, CancellationToken cancellationToken)
         {
-            string accessTokenResponse = await _httpClient.GetStringAsync($"https://graph.facebook.com/oauth/access_token?client_id=8051595048197662&client_secret=69061084b63415e8d9c9d9d8eb19a678&grant_type=client_credentials");
+            var token= await _authService.FacebookLoginAsync(request.AuthToken,15);//15 saniye bu saniye cinsinden uzun vermek için 60*60*24 gibi hesaplayabiliriz.
+            return new()
+            {
+                Token = token
+            };
+            /*string accessTokenResponse = await _httpClient.GetStringAsync($"https://graph.facebook.com/oauth/access_token?client_id=8051595048197662&client_secret=69061084b63415e8d9c9d9d8eb19a678&grant_type=client_credentials");
 
             FacebookAccessTokenResponse facebookAccessTokenResponse = JsonSerializer.Deserialize<FacebookAccessTokenResponse>(accessTokenResponse);
 
             string userAccessTokenValidation = await _httpClient.GetStringAsync($"https://graph.facebook.com/debug_token?input_token={request.AuthToken}&access_token={facebookAccessTokenResponse.AccessToken}");
             FacebookUserAccessTokenValidation validation =
-                JsonSerializer.Deserialize<FacebookUserAccessTokenValidation>(userAccessTokenValidation);
+                JsonSerializer.Deserialize<FacebookUserAccessTokenValidation>(userAccessTokenValidation);*/
 
-            if (validation.Data.IsValid)
+            /*if (validation.Data.IsValid)
             {
                 string userInfoResponse = await _httpClient.GetStringAsync($"https://graph.facebook.com/me?fields=email,name&access_token={request.AuthToken}");
 
@@ -73,8 +85,8 @@ namespace ETicaret.Application.Features.Commands.AppUser.FacebookLogin
                         Token = token
                     };
                 }
-            }
-            throw new Exception("Invalid external authentication.");
+            }*/
+            //throw new Exception("Invalid external authentication.");
         }
     }
 }

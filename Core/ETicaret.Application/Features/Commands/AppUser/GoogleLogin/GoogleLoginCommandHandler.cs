@@ -1,30 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ETicaret.Application.Abstractions.Token;
-using ETicaret.Application.DTOs;
-using Google.Apis.Auth;
+﻿using ETicaret.Application.Abstractions.Services;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 
 namespace ETicaret.Application.Features.Commands.AppUser.GoogleLogin
 {
     public class GoogleLoginCommandHandler:IRequestHandler<GoogleLoginCommandRequest,GoogleLoginCommandResponse>
     {
-        readonly UserManager<ETicaretAPI.Domain.Entities.Identity.AppUser> _userManager;
+        /*readonly UserManager<ETicaretAPI.Domain.Entities.Identity.AppUser> _userManager;
         readonly ITokenHandler _tokenHandler;
 
         public GoogleLoginCommandHandler(UserManager<ETicaretAPI.Domain.Entities.Identity.AppUser> userManager, ITokenHandler tokenHandler)
         {
             _userManager = userManager;
             _tokenHandler = tokenHandler;
+        }*/
+        readonly IAuthService _authService;
+
+        public GoogleLoginCommandHandler(IAuthService authService)
+        {
+            _authService = authService;
         }
 
         public async Task<GoogleLoginCommandResponse> Handle(GoogleLoginCommandRequest request, CancellationToken cancellationToken)
         {
-            var settings = new GoogleJsonWebSignature.ValidationSettings()
+            var token= await _authService.GoogleLoginAsync(request.IdToken, 15);
+            return new()
+            {
+                Token = token
+            };
+            /*var settings = new GoogleJsonWebSignature.ValidationSettings()
             {
                 Audience = new List<string>
                 {
@@ -65,7 +68,7 @@ namespace ETicaret.Application.Features.Commands.AppUser.GoogleLogin
             return new()
             {
                 Token = token
-            };
+            };*/
         }
     }
 }

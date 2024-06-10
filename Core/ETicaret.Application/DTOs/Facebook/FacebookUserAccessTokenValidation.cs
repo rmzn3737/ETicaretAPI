@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ETicaret.Application.DTOs.Facebook
 {
-    internal class FacebookUserAccessTokenValidation
+    public class FacebookUserAccessTokenValidation
     {
         [JsonPropertyName("data")]
         public FacebookUserAccessTokenValidationData Data { get; set; }
