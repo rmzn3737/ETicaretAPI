@@ -59,15 +59,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
             ValidAudience = builder.Configuration["Token:Audience"],
             ValidIssuer = builder.Configuration["Token:Issuer"],
-            LifetimeValidator = (notBefore, expires, token, parameters) =>
+            LifetimeValidator = (notBefore, expires, securityToken, validationParameters) => expires != null ? expires > DateTime.UtcNow: false
+            /*LifetimeValidator = (notBefore, expires, token, parameters) =>
             {
                 // Burada kendi özel doğrulama mantığınızı yazabilirsiniz.
                 if (expires != null)
                 {
                     return expires > DateTime.UtcNow.AddHours(3);
                 }
-                return false;
-            },
+                return false;//Bu kodu chtGPT ye yazdırmıştık, üstteki hocaya ait, JWT ile apiye bağlanma sürecinde aşmakta zorlandığımız en önemli hatalardan biriydi.
+            }*/,
 
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Token:SecurityKey"]))
         };

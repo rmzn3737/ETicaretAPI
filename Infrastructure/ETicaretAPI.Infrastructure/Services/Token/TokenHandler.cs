@@ -29,13 +29,13 @@ namespace ETicaretAPI.Infrastructure.Services.Token
             SigningCredentials signingCredentials = new(securityKey, SecurityAlgorithms.HmacSha256);
 
             //Oluşturulacak token ayarlarını veriyoruz.
-            token.Expiration = DateTime.UtcNow.AddMinutes(second).AddHours(3);
+            token.Expiration = DateTime.UtcNow.AddSeconds(second);
             JwtSecurityToken securityToken = new(
                 audience: _configuration["Token:Audience"],
                 //expires: DateTime.UtcNow.AddMinutes(minute).AddHours(3),
                 issuer: _configuration["Token:Issuer"],
-                expires: token.Expiration.AddHours(3),
-                notBefore: DateTime.UtcNow.AddHours(3), //Üretildiği anda devreye girsin.
+                expires: token.Expiration,
+                notBefore: DateTime.UtcNow, //Üretildiği anda devreye girsin.
                 signingCredentials: signingCredentials);
 
             //Token oluşturucu sınıfından bir örnek alalım.
