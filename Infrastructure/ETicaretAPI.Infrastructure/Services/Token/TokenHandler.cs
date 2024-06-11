@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using ETicaret.Application.Abstractions.Token;
@@ -41,7 +42,26 @@ namespace ETicaretAPI.Infrastructure.Services.Token
             //Token oluşturucu sınıfından bir örnek alalım.
             JwtSecurityTokenHandler tokenHandler = new();
             token.AccessToken = tokenHandler.WriteToken(securityToken);
+
+            //string refreshToken = CreateRefreshToken();
+            token.RefreshToken = CreateRefreshToken();
             return token;
+        }
+
+        public string CreateRefreshToken()
+        {
+            byte[]  number = new byte[32];
+
+            /*using (RandomNumberGenerator random = RandomNumberGenerator.Create())
+            {
+                
+            }*/ //todo using eski kullanım, Engin hoca anlatmıştı, Gençay Hoca da scope dan çıkılınca nesne dipos edilecek  diye belirtti. Yani grbage collector toplayacak, imha edecek. Yeni kullanım altta.
+
+            using RandomNumberGenerator random = RandomNumberGenerator.Create();
+            random.GetBytes(number);
+
+            return Convert.ToBase64String(number);
+
         }
     }
 }

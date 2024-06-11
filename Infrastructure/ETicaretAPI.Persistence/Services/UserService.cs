@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ETicaret.Application.Abstractions.Services;
 using ETicaret.Application.DTOs.User;
+using ETicaret.Application.Exceptions;
 using ETicaret.Application.Features.Commands.AppUser.CreateUser;
 using ETicaretAPI.Domain.Entities.Identity;
 using MediatR;
@@ -43,6 +44,19 @@ namespace ETicaretAPI.Persistence.Services
                     response.Message += $"{error.Code}-{error.Description}\n";
             //response.Message += $"{error.Code}-{error.Description}<br>";
             return response;
+        }
+
+        public async Task UpdateRefreshToken(string refreshToken, AppUser user, DateTime accessTokenDate, int addOnAccessTokenDate)
+        {
+            //AppUser user = await _userManager.FindByIdAsync(userId);
+            if (user != null)
+            {
+                user.RefreshToken = refreshToken;
+                user.RefreshTokenEndDate = accessTokenDate.AddSeconds(addOnAccessTokenDate);
+                await _userManager.UpdateAsync(user);
+            }
+            else
+            throw new NotFoundUserException();
         }
     }
 }

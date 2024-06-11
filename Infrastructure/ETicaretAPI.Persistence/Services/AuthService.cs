@@ -18,17 +18,19 @@ namespace ETicaretAPI.Persistence.Services
         readonly UserManager<AppUser> _userManager;
         readonly ITokenHandler _tokenHandler;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly IUserService _userService;
 
         public AuthService(IHttpClientFactory httpClientFactory, 
             IConfiguration configuration, 
             UserManager<AppUser> userManager, 
             ITokenHandler tokenHandler, 
-            SignInManager<AppUser> signInManager)
+            SignInManager<AppUser> signInManager, IUserService userService)
         {
             _configuration = configuration;
             _userManager = userManager;
             _tokenHandler = tokenHandler;
             _signInManager = signInManager;
+            _userService = userService;
             _httpClient = httpClientFactory.CreateClient();
         }
 
@@ -60,6 +62,9 @@ namespace ETicaretAPI.Persistence.Services
 
 
                 Token token = _tokenHandler.CreateAccessToken(accessTokenLifeTime);
+                await _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration,
+                    5);
+                //token.RefreshToken = token.RefreshToken;
 
                 return token;
             }
@@ -123,6 +128,8 @@ namespace ETicaretAPI.Persistence.Services
             {
                 Token token = _tokenHandler.CreateAccessToken(accessTokenLifeTime);
                 //todo aslında burada yetkileri belirlememmiz gerekiyor.
+                await _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration,
+                    15);
                 return token;
             }
             //return new LoginUserErrorCommandResponse()
