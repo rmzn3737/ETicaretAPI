@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace ETicaret.Application.Features.Commands.Product.UpdateProduct
 {
@@ -13,11 +14,13 @@ namespace ETicaret.Application.Features.Commands.Product.UpdateProduct
         {
             readonly IProductReadRepository _productReadRepository;
             readonly IProductWriteRepository _productWriteRepository;
+            readonly ILogger<UpdateProductCommandHandler> _logger;
 
-            public UpdateProductCommandHandler(IProductReadRepository productReadRepository, IProductWriteRepository productWriteRepository)
+            public UpdateProductCommandHandler(IProductReadRepository productReadRepository, IProductWriteRepository productWriteRepository, ILogger<UpdateProductCommandHandler> logger)
             {
                 _productReadRepository = productReadRepository;
                 _productWriteRepository = productWriteRepository;
+                _logger = logger;
             }
 
             public async Task<UpdateProductCommandResponse> Handle(UpdateProductCommandRequest request, CancellationToken cancellationToken)
@@ -27,6 +30,7 @@ namespace ETicaret.Application.Features.Commands.Product.UpdateProduct
                 product.Name = request.Name;
                 product.Price = request.Price;
                 await _productWriteRepository.SaveAsync();
+                _logger.LogInformation("Product güncellendi...");
                 return new();
             }
         }
