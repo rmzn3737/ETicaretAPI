@@ -24,6 +24,7 @@ namespace ETicaret.Application.Features.Queries.Product.GetAllProduct
         public async Task<GetAllProductQueryResponse> Handle(GetAllProductQueryRequest request, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Ürünlerin tamamı listelendi...");
+           // throw new Exception("Global exception oluşturduk ve test için bu hatayı bilinçli fırlattık...");
             var totalCount = _productReadRepository.GetAll(false).Count();
             var products = _productReadRepository.GetAll(false).Skip(request.Page * request.Size).Take(request.Size).Select(p => new
             {
