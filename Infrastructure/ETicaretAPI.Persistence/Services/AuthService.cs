@@ -62,7 +62,7 @@ namespace ETicaretAPI.Persistence.Services
 
 
 
-                Token token = _tokenHandler.CreateAccessToken(accessTokenLifeTime);
+                Token token = _tokenHandler.CreateAccessToken(accessTokenLifeTime,user);
                 await _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration,
                     5);
                 //token.RefreshToken = token.RefreshToken;
@@ -127,7 +127,7 @@ namespace ETicaretAPI.Persistence.Services
             SignInResult signInResult = await _signInManager.CheckPasswordSignInAsync(user, password, false);
             if (signInResult.Succeeded)//Authentication başarılı.
             {
-                Token token = _tokenHandler.CreateAccessToken(accessTokenLifeTime);
+                Token token = _tokenHandler.CreateAccessToken(accessTokenLifeTime, user);
                 //todo aslında burada yetkileri belirlememmiz gerekiyor.
                 await _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration,
                     15);
@@ -145,7 +145,7 @@ namespace ETicaretAPI.Persistence.Services
             AppUser? user = await _userManager.Users.FirstOrDefaultAsync(u => u.RefreshToken == refreshToken);
             if (user != null && user?.RefreshTokenEndDate > DateTime.UtcNow)
             {
-                Token token = _tokenHandler.CreateAccessToken(15);
+                Token token = _tokenHandler.CreateAccessToken(15,user);
                 await _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration, 15);
                 return token;
             }

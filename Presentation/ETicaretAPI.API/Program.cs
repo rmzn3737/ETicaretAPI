@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Security.Claims;
+using System.Text;
 using ETicaret.Application;
 using ETicaret.Application.Validators.Products;
 using ETicaretAPI.Persistence;
@@ -16,6 +17,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
+using Serilog.Core;
+using Serilog.Sinks.PostgreSQL;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,8 +39,25 @@ builder.Services.AddStorage<LocalStorage>();
 builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
 
     //policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()//Her yerden gelen istekler.
-    policy.WithOrigins("http://localhost:4200", "https://localhost:4200").AllowAnyHeader().AllowAnyMethod()
-));
+    policy.WithOrigins("http://localhost:4200", "https://localhost:4200").AllowAnyHeader().AllowAnyMethod()));
+
+Logger log = new LoggerConfiguration()
+    .WriteTo.Console()
+    .WriteTo.File("logs/log.txt")
+    .WriteTo.PostgreSQL(builder.Configuration.GetConnectionString("PostgreSQL"),"logs",needAutoCreateTable:true,columnOptions:new Dictionary<string, ColumnWriterBase>
+    {
+        {"message",new RenderedMessageColumnWriter()},
+        {"message_tamplate",new MessageTemplateColumnWriter()},
+        {"level",new LevelColumnWriter()},
+        {"time_stamp",new TimestampColumnWriter()},
+        {"exception",new ExceptionColumnWriter()},
+        {"porperties",new PropertiesColumnWriter()},
+        {"log_event",new LogEventSerializedColumnWriter()},
+        //{"user_name",new }
+    })
+    .CreateLogger();
+builder.Host.UseSerilog(log);
+
 builder.Services.AddControllers(options => options.Filters.Add<ValidationFilter>())
     .AddFluentValidation(configuration => configuration.RegisterValidatorsFromAssemblyContaining<CreateProductValidator>())
     .ConfigureApiBehaviorOptions(options => options.SuppressModelStateInvalidFilter = true);
@@ -59,7 +80,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
             ValidAudience = builder.Configuration["Token:Audience"],
             ValidIssuer = builder.Configuration["Token:Issuer"],
-            LifetimeValidator = (notBefore, expires, securityToken, validationParameters) => expires != null ? expires > DateTime.UtcNow: false //Bu bir delegatemiş.
+            LifetimeValidator = (notBefore, expires, securityToken, validationParameters) => expires != null ? expires > DateTime.UtcNow: false, //Bu bir delegatemiş.
+
+            NameClaimType = ClaimTypes.Name //JWT üzerinde Name claimne karþýlýk gelen deðeri User.Identity.Name propertysinden elde edebiliriz.
             /*LifetimeValidator = (notBefore, expires, token, parameters) =>
             {
                 // Burada kendi özel doğrulama mantığınızı yazabilirsiniz.
