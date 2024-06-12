@@ -64,7 +64,7 @@ namespace ETicaretAPI.Persistence.Services
 
                 Token token = _tokenHandler.CreateAccessToken(accessTokenLifeTime,user);
                 await _userService.UpdateRefreshToken(token.RefreshToken, user, token.Expiration,
-                    5);
+                    300);//AccessToken+ RefreshToken 20 dk yaptık.
                 //token.RefreshToken = token.RefreshToken;
 
                 return token;

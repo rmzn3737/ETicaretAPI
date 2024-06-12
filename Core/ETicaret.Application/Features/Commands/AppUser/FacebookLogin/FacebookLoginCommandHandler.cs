@@ -30,7 +30,7 @@ namespace ETicaret.Application.Features.Commands.AppUser.FacebookLogin
 
         public async Task<FacebookLoginCommandResponse> Handle(FacebookLoginCommandRequest request, CancellationToken cancellationToken)
         {
-            var token= await _authService.FacebookLoginAsync(request.AuthToken,15);//15 saniye bu saniye cinsinden uzun vermek için 60*60*24 gibi hesaplayabiliriz.
+            var token= await _authService.FacebookLoginAsync(request.AuthToken,900);////15 dk lık JWT oluşturuyoruz. 15 saniye bu saniye cinsinden uzun vermek için 60*60*24 gibi hesaplayabiliriz.
             return new()
             {
                 Token = token

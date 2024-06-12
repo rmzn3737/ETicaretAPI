@@ -14,6 +14,7 @@ using ETicaret.Application.Abstractions.Storage.Local;
 using ETicaretAPI.API.Configurations.ColumnWriters;
 using ETicaretAPI.API.Extensions;
 using ETicaretAPI.Infrastructure.Services.Storage.Local;
+using ETicretAPI.SignalR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,7 +37,7 @@ builder.Services.AddInfrastructureServices();
 //builder.Services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(LibraryEntrypoint).Assembly));
 
 builder.Services.AddApplicationServices();
-
+builder.Services.AddSignalRServices();
 //todo alttaki değişik kullanımlar var.
 //builder.Services.AddStorage(StorageType.Azure);
 builder.Services.AddStorage<LocalStorage>();
@@ -45,7 +46,7 @@ builder.Services.AddStorage<LocalStorage>();
 builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
 
     //policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()//Her yerden gelen istekler.
-    policy.WithOrigins("http://localhost:4200", "https://localhost:4200").AllowAnyHeader().AllowAnyMethod()));
+    policy.WithOrigins("http://localhost:4200", "https://localhost:4200").AllowAnyHeader().AllowAnyMethod().AllowCredentials()));
 
 Logger log = new LoggerConfiguration()
     .WriteTo.Console()
@@ -159,6 +160,7 @@ app.Use(async (context, next) =>
 });
 
 app.MapControllers();
+app.MapHubs();
 
 app.Run();
 
