@@ -30,10 +30,11 @@ namespace ETicaret.Application.Features.Commands.ProductImageFile.ChangeShowcase
             var data = await query.FirstOrDefaultAsync(p =>
                 p.p.Id == Guid.Parse(request.ProductId) && p.pif.Showcase == true);
 
-
+            if (data!=null)
             data.pif.Showcase = false;
 
             var image =await query.FirstOrDefaultAsync(p => p.pif.Id == Guid.Parse(request.ImageId));
+            if (image!=null)
             image.pif.Showcase = true;
             await _productImageFileWriteRepository.SaveAsync();
             return new();

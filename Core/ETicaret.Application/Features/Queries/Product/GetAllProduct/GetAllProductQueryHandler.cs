@@ -8,6 +8,7 @@ using ETicaret.Application.Repositories;
 using ETicaret.Application.RequestParameters;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace ETicaret.Application.Features.Queries.Product.GetAllProduct
@@ -26,14 +27,17 @@ namespace ETicaret.Application.Features.Queries.Product.GetAllProduct
             _logger.LogInformation("Ürünlerin tamamı listelendi...");
            // throw new Exception("Global exception oluşturduk ve test için bu hatayı bilinçli fırlattık...");
             var totalProductCount = _productReadRepository.GetAll(false).Count();
-            var products = _productReadRepository.GetAll(false).Skip(request.Page * request.Size).Take(request.Size).Select(p => new
+            var products = _productReadRepository.GetAll(false).Skip(request.Page * request.Size).Take(request.Size)
+                .Include(p =>p.ProductImageFiles)//todo Join atarak imagafileını da getirdik.
+                .Select(p => new
             {
                 p.Id,
                 p.Name,
                 p.Price,
                 p.Stock,
                 p.CreatedDate,
-                p.UpdatedDate
+                p.UpdatedDate,
+                p.ProductImageFiles
             }).ToList();//Skip(pagination.Page * pagination.Size).Take(pagination.Size);
 
             return new()
