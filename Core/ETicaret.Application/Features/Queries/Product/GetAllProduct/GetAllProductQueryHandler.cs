@@ -25,7 +25,7 @@ namespace ETicaret.Application.Features.Queries.Product.GetAllProduct
         {
             _logger.LogInformation("Ürünlerin tamamı listelendi...");
            // throw new Exception("Global exception oluşturduk ve test için bu hatayı bilinçli fırlattık...");
-            var totalCount = _productReadRepository.GetAll(false).Count();
+            var totalProductCount = _productReadRepository.GetAll(false).Count();
             var products = _productReadRepository.GetAll(false).Skip(request.Page * request.Size).Take(request.Size).Select(p => new
             {
                 p.Id,
@@ -39,7 +39,7 @@ namespace ETicaret.Application.Features.Queries.Product.GetAllProduct
             return new()
             {
                 Products = products,
-                TotalCount = totalCount
+                TotalProductCount = totalProductCount
             };
         }
     }
