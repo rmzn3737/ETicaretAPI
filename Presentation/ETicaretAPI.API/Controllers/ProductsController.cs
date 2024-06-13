@@ -9,6 +9,7 @@ using ETicaretAPI.Application.Features.Queries.Product.GetByIdProduct;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using ETicaret.Application.Features.Commands.ProductImageFile.ChangeShowcaseImage;
 using Microsoft.AspNetCore.Authorization;
 
 
@@ -161,6 +162,14 @@ namespace ETicaretAPI.API.Controllers
             RemoveProductImageCommandResponse removeProductImageCommandResponse =
                 await _mediator.Send(removeProductImageCommandRequest);
             return Ok();
+        }
+
+        [HttpPut("[action]/{imageId}/{productId}")]
+        [Authorize(AuthenticationSchemes = "Admin")]
+        public async Task<ActionResult> ChangeShowcaseImage([FromQuery]ChangeShowcaseImageCommandRequest changeShowcaseImageCommandRequest)
+        {
+            ChangeShowcaseImageCommandResponse response = await _mediator.Send(changeShowcaseImageCommandRequest);
+            return Ok(response);
         }
 
         //todo #34- Asp.NET Core 6 + Angular İle Mini E-Ticaret _ CQRS ve Mediator Pattern Üzerine Teorik Anlatım. Bu ders bitti CQRS Design Pattern'in terik altyapısı konuşuldu, artık cu controller sınıfını CQRS e taşıyaşcağız.
