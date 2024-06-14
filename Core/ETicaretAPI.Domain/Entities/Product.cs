@@ -14,5 +14,6 @@ namespace ETicaretAPI.Domain.Entities
         public float Price { get; set; }
         public ICollection<Order> Orders { get; set; }//Bir productın birden fazla orderı olabilir anlamına geliyor.
         public ICollection<ProductImageFile> ProductImageFiles { get; set; }//Bir productın birden fazla resmi olabilir anlamına geliyor.
+        public ICollection<BasketItem> BasketItems { get; set; }
     }
 }
