@@ -31,7 +31,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 
-
+builder.Services.AddHttpContextAccessor();//Client'tan gelen request neticesinde oluşmakta olan HttpContext nesnesine katmanlardaki class'lar üzerinden(business Logic) erişebilmemizi sağlayan bir servistir.
 builder.Services.AddPersistenceServices();
 builder.Services.AddInfrastructureServices();
 //builder.Services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(LibraryEntrypoint).Assembly));
