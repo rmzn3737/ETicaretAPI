@@ -25,10 +25,20 @@ namespace ETicaretAPI.Persistence.Contexts
         public DbSet<InvoiceFile> InvoiceFiles { get; set; }
         public DbSet<Basket> Baskets { get; set; }
         public DbSet<BasketItem> BasketItems { get; set; }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<Order>()
+                .HasKey(o => o.Id);
+            builder.Entity<Basket>()
+                .HasOne(b => b.Order)
+                .WithOne(o => o.Basket)
+                .HasForeignKey<Order>(o =>o.Id);
+            base.OnModelCreating(builder);
+        }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            //ChangeTracker = Entityler üzerinden yeni eklenen vey değişiklik yapılan verinin yakalanmasını sağlaya propertydir. Update operasyonlarında Trcak edilen verileri yapalayıp elde etmemizi sağlar. İnsert edilen dışında, insert edilen nesne henüz daha olmadığı için yakalanamaz.
+            //ChangeTracker = Entityler üzerinden yeni eklenen vey değişiklik yapılan verinin yakalanmasını sağlayan propertydir. Update operasyonlarında Trcak edilen verileri yapalayıp elde etmemizi sağlar. İnsert edilen dışında, insert edilen nesne henüz daha olmadığı için yakalanamaz.
             var datas = ChangeTracker.Entries<BaseEntity>();
             foreach (var data in datas)
             {
