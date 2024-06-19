@@ -46,7 +46,7 @@ namespace ETicaretAPI.API.Controllers
         public async Task<IActionResult> RemoveBasketItem([FromRoute]RemoveBasketItemCommandRequest removeBasketItemCommandRequest)
         {
             RemoveBasketItemCommandResponse response = await _mediator.Send(removeBasketItemCommandRequest);
-            return Ok(response);
+            return Ok(response); 
         }
     }
 }
