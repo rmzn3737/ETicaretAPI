@@ -10,6 +10,6 @@ namespace ETicaretAPI.Domain.Entities
     public class Customer:BaseEntity
     {
         public string Name{ get; set; }
-        public ICollection<Customer> Orders { get; set; }
+        //public ICollection<Customer> Orders { get; set; }
     }
 }
