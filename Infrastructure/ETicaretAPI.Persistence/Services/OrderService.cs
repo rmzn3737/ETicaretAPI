@@ -40,23 +40,31 @@ namespace ETicaretAPI.Persistence.Services
         
         
         //todo Alttaki kodda return yerine => bunu kullanabiliyoruz, c# ın bir özelliği. Lamda operasyonu, scope parantezlerini silip bunu kullanıyoruz. Tek satırlık işlemlerde yapıyoruz.
-        public async Task<List<ListOrder>> GetAllOrdersAsync(int page,int size)
-        
-            => await _orderReadRepository.Table.Include (o => o.Basket)
+        public async Task<ListOrder> GetAllOrdersAsync(int page,int size)
+
+        {
+            var query = _orderReadRepository.Table.Include(o => o.Basket)
                 .ThenInclude(b => b.User)
-                .Include(o=>o.Basket)
+                .Include(o => o.Basket)
                 .ThenInclude(b => b.BasketItems)
-                .ThenInclude(bi=>bi.Product)
-                .Select(o=>new ListOrder
-                {
-                    CreatedDate = o.CreatedDate,
-                    OrderCode=o.OrderCode,
-                    TotalPrice = o.Basket.BasketItems.Sum(bi=>bi.Product.Price*bi.Quantity),
-                    UserName = o.Basket.User.UserName
-                })
-                .Skip(page*size).Take(size)
+                .ThenInclude(bi => bi.Product);
+
+            var data = query.Skip(page * size).Take(size);
                 //.Take((page*size)..size)
-                .ToListAsync();
-        
+                
+                return new()
+                {
+                    TotalOrderCount = await query.CountAsync(),
+                    Orders= await data.Select(o=>new 
+                    {
+                        CreateDate=o.CreatedDate,
+                        OrderCode=o.OrderCode,
+                        TotalPrice=o.Basket.BasketItems.Sum(bi=>bi.Product.Price *bi.Quantity),
+                        UserName=o.Basket.User.UserName
+                    }).ToListAsync()
+                };
+
+        }
+
     }
 }

@@ -8,7 +8,7 @@ using MediatR;
 
 namespace ETicaret.Application.Features.Queries.Order
 {
-    public class GetAllOrdersQueryHandler : IRequestHandler<GetAllOrdersQueryRequest, List<GetAllOrdersQueryResponse>>
+    public class GetAllOrdersQueryHandler : IRequestHandler<GetAllOrdersQueryRequest, GetAllOrdersQueryResponse>
     {
         readonly IOrderService _orderService;
 
@@ -17,16 +17,23 @@ namespace ETicaret.Application.Features.Queries.Order
             _orderService = orderService;
         }
 
-        public async Task<List<GetAllOrdersQueryResponse>> Handle(GetAllOrdersQueryRequest request, CancellationToken cancellationToken)
+        public async Task<GetAllOrdersQueryResponse> Handle(GetAllOrdersQueryRequest request, CancellationToken cancellationToken)
         {
             var data= await _orderService.GetAllOrdersAsync(request.Page,request.Size);
-            return data.Select(o => new GetAllOrdersQueryResponse
+
+            return new()
             {
-                CreatedDate = o.CreatedDate,//todo Burada otomapper da kullanılabilir. Hoca daha elverişli olur dedi.
-                OrderCode = o.OrderCode,
-                TotalPrice = o.TotalPrice,
-                UserName = o.UserName,
-            }).ToList();
+                TotalOrderCount = data.TotalOrderCount,
+                Orders = data.Orders
+            };
+
+            //return data.Select(o => new GetAllOrdersQueryResponse
+            //{
+            //    CreatedDate = o.CreatedDate,//todo Burada otomapper da kullanılabilir. Hoca daha elverişli olur dedi.
+            //    OrderCode = o.OrderCode,
+            //    TotalPrice = o.TotalPrice,
+            //    UserName = o.UserName,
+            //}).ToList();
         }
     }
 

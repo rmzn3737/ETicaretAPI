@@ -10,6 +10,6 @@ namespace ETicaret.Application.Abstractions.Services
     public interface IOrderService
     {
         Task CreateOrderAsync(CreateOrder createOrder);
-        Task <List<ListOrder>> GetAllOrdersAsync(int page, int size);
+        Task <ListOrder> GetAllOrdersAsync(int page, int size);
     }
 }

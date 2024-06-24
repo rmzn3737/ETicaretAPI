@@ -28,7 +28,7 @@ namespace ETicaretAPI.API.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetAllOrders([FromQuery]GetAllOrdersQueryRequest getAllOrdersQueryRequest)        {
-            List<GetAllOrdersQueryResponse> response = await _mediator.Send(getAllOrdersQueryRequest);
+            GetAllOrdersQueryResponse response = await _mediator.Send(getAllOrdersQueryRequest);
             return Ok(response);
         }
     }
