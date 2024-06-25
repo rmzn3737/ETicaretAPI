@@ -1,4 +1,5 @@
-﻿using ETicaret.Application.Features.Commands.AppUser.CreateUser;
+﻿using ETicaret.Application.Abstractions.Services;
+using ETicaret.Application.Features.Commands.AppUser.CreateUser;
 using ETicaret.Application.Features.Commands.AppUser.FacebookLogin;
 using ETicaret.Application.Features.Commands.AppUser.GoogleLogin;
 using ETicaret.Application.Features.Commands.AppUser.LoginUser;
@@ -13,9 +14,11 @@ namespace ETicaretAPI.API.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IMediator _mediator;
-        public UsersController(IMediator mediator)
+        readonly IMailService _mailService;
+        public UsersController(IMediator mediator, IMailService mailService)
         {
             _mediator = mediator;
+            _mailService = mailService;
         }
 
         [HttpPost]
@@ -25,7 +28,14 @@ namespace ETicaretAPI.API.Controllers
             return Ok(createUserCommandResponse);
         }
 
-        
+        [HttpGet]
+        public async Task<IActionResult> ExampleMailTest()
+        {
+            await _mailService.SendMessageAsync("onlineogretmen43@gmail.com", "Örnek Mail", "<strong>Bu bir örnek maildir.</strong>");
+            return Ok();
+        }
+
+
     }
 
     //[HttpPost("[action]")]
