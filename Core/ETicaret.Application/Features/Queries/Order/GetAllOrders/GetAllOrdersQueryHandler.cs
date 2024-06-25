@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using ETicaret.Application.Abstractions.Services;
 using MediatR;
 
-namespace ETicaret.Application.Features.Queries.Order
+namespace ETicaret.Application.Features.Queries.Order.GetAllOrders
 {
     public class GetAllOrdersQueryHandler : IRequestHandler<GetAllOrdersQueryRequest, GetAllOrdersQueryResponse>
     {

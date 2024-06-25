@@ -1,4 +1,4 @@
-﻿namespace ETicaret.Application.Features.Queries.Order
+﻿namespace ETicaret.Application.Features.Queries.Order.GetAllOrders
 {
     public class GetAllOrdersQueryResponse
     {
