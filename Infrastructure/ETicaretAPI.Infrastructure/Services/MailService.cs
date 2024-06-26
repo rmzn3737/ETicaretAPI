@@ -33,9 +33,9 @@ namespace ETicaretAPI.Infrastructure.Services
                 mail.To.Add(to);
             mail.Subject = subject;
             mail.Body = body;
-            mail.From = new(_configuration["Mail:Username"],"RE E-Ticaret",System.Text.Encoding.UTF8);
+            mail.From = new(_configuration["Mail:Username"], "Mini E-Ticaret", System.Text.Encoding.UTF8);
             SmtpClient smtp = new SmtpClient();
-            smtp.Credentials = new NetworkCredential(_configuration["Mail: Username"], _configuration["Mail:Password"]);
+            smtp.Credentials = new NetworkCredential(_configuration["Mail:Username"], _configuration["Mail:Password"]);
             smtp.Port = 587;
             smtp.EnableSsl = true;
             smtp.Host = _configuration["Mail:Host"];
