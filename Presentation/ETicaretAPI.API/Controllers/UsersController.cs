@@ -3,6 +3,7 @@ using ETicaret.Application.Features.Commands.AppUser.CreateUser;
 using ETicaret.Application.Features.Commands.AppUser.FacebookLogin;
 using ETicaret.Application.Features.Commands.AppUser.GoogleLogin;
 using ETicaret.Application.Features.Commands.AppUser.LoginUser;
+using ETicaret.Application.Features.Commands.AppUser.UpdatePassword;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -28,12 +29,19 @@ namespace ETicaretAPI.API.Controllers
             return Ok(createUserCommandResponse);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> ExampleMailTest()
+        [HttpPost("update-password")]
+        public async Task<IActionResult> UpdatePassword([FromBody] UpdatePasswordCommandRequest updatePasswordCommandRequest)
         {
-            await _mailService.SendMessageAsync("onlineogretmen43@gmail.com", "Örnek Mail", "<strong>Bu bir örnek maildir.</strong>");
-            return Ok();
+            UpdatePasswordCommandResponse response = await _mediator.Send(updatePasswordCommandRequest);
+            return Ok(response);
         }
+
+        //[HttpGet]
+        //public async Task<IActionResult> ExampleMailTest()
+        //{
+        //    await _mailService.SendMailAsync("onlineogretmen43@gmail.com", "Örnek Mail", "<strong>Bu bir örnek maildir.</strong>");
+        //    return Ok();
+        //}//Test için yazmıştık bu metodu sileceğiz.
 
 
     }

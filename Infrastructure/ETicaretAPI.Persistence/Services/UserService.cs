@@ -7,9 +7,11 @@ using ETicaret.Application.Abstractions.Services;
 using ETicaret.Application.DTOs.User;
 using ETicaret.Application.Exceptions;
 using ETicaret.Application.Features.Commands.AppUser.CreateUser;
+using ETicaret.Application.Helpers;
 using ETicaretAPI.Domain.Entities.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace ETicaretAPI.Persistence.Services
 {
@@ -46,7 +48,7 @@ namespace ETicaretAPI.Persistence.Services
             return response;
         }
 
-        public async Task UpdateRefreshToken(string refreshToken, AppUser user, DateTime accessTokenDate, int addOnAccessTokenDate)
+        public async Task UpdateRefreshTokenAsync(string refreshToken, AppUser user, DateTime accessTokenDate, int addOnAccessTokenDate)
         {
             //AppUser user = await _userManager.FindByIdAsync(userId);
             if (user != null)
@@ -57,6 +59,22 @@ namespace ETicaretAPI.Persistence.Services
             }
             else
             throw new NotFoundUserException();
+        }
+
+        public async Task UpdatePasswordAsync(string userId, string resetToken, string newPassword)
+        {
+            AppUser user = await _userManager.FindByIdAsync(userId);
+            if (user != null)
+            {
+                //byte[] tokenBytes = WebEncoders.Base64UrlDecode(resetToken);
+                //resetToken = Encoding.UTF8.GetString(tokenBytes);
+                resetToken = resetToken.UrlDecode();
+                IdentityResult result = await _userManager.ResetPasswordAsync(user, resetToken, newPassword);
+                if (result.Succeeded)
+                    await _userManager.UpdateSecurityStampAsync(user);
+                else
+                    throw new PasswordCahngeFailedException();
+            }
         }
     }
 }

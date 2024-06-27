@@ -14,6 +14,7 @@ using ETicaret.Application.Repositories;
 using ETicaretAPI.Domain.Entities.Identity;
 using ETicaretAPI.Persistence.Repositories;
 using ETicaretAPI.Persistence.Services;
+using Microsoft.AspNetCore.Identity;
 
 namespace ETicaretAPI.Persistence
 {
@@ -21,6 +22,7 @@ namespace ETicaretAPI.Persistence
     {
         public static void AddPersistenceServices(this IServiceCollection services)
         {
+            services.AddDbContext<ETicaretAPIDbContext>(options => options.UseNpgsql(Configuration.ConnectionString));
             services.AddIdentity<AppUser, AppRole>(options =>
             {
                 options.Password.RequiredLength = 3;
@@ -29,9 +31,9 @@ namespace ETicaretAPI.Persistence
                 options.Password.RequireLowercase=false;
                 options.Password.RequireUppercase=false;
 
-            }).AddEntityFrameworkStores<ETicaretAPIDbContext>();
+            }).AddEntityFrameworkStores<ETicaretAPIDbContext>().AddDefaultTokenProviders();
             //services.AddSingleton<IProductService, ProductService>();
-            services.AddDbContext<ETicaretAPIDbContext>(options => options.UseNpgsql(Configuration.ConnectionString));
+            
             services.AddScoped<ICustomerReadRepository,CustomerReadRepository>();
             services.AddScoped<ICustomerWriteRepository, CustomerWriteRepository>();
             services.AddScoped<IOrderReadRepository, OrderReadRepository>();
