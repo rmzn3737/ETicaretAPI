@@ -65,6 +65,13 @@ namespace ETicaretAPI.Infrastructure.Services
             await SendMailAsync(to, "Şifre Yenileme Talebi", mailContent);
         }
 
+        public async Task SendCompletedOrderMailAsync(string to, string orderCode, DateTime orderDate, string userName)
+        {
+            string mail = $"Sayın {userName} Merhaba<br>" +
+                          $"{orderDate} tarihinde vermiş olduğunuz {orderCode} kodlu siparişiniz tamamlanmış ve kargo firmasına verilmiştir.<br>Hayrını görünüz efendim...";
+            await SendMailAsync(to, $"{orderCode} Numaralı Siparişiniz Tamamlandı", mail);
+        }
+
 
         /*public async Task SendPasswordResetMailAsync(string to,string userId, string resetToken)
         {
