@@ -20,8 +20,13 @@ namespace ETicaret.Application.Features.Commands.AppUser.UpdatePassword
 
         public async Task<UpdatePasswordCommandResponse> Handle(UpdatePasswordCommandRequest request, CancellationToken cancellationToken)
         {
-            if (request.Password.Equals(request.PasswordConfirm))
+            if (!request.Password.Equals(request.PasswordConfirm))
+            {
+                var tip =request.Password.GetType();
+                var tip2 = request.PasswordConfirm.GetType();
                 throw new PasswordCahngeFailedException("Şifreler eşleşmiyor, lütfen şifreyi doğrulayınız.");
+            }
+                
            
             await _userService.UpdatePasswordAsync(request.UserId,request.ResetToken,request.Password);
             return new();
