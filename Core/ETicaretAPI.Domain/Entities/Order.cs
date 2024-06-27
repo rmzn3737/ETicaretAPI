@@ -17,5 +17,6 @@ namespace ETicaretAPI.Domain.Entities
         public Basket Basket { get; set; }
         //public ICollection<Product> Products { get; set; }//Bir siparişin birden fazla productı olduğunu ifade ediyor.
         //public Customer Customer { get; set; }
+        public CompletedOrder CompletedOrder { get; set; }
     }
 }
