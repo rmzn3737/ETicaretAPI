@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace ETicaretAPI.Persistence.Services
 {
-    public class RoleService:IRoleService
+    public class RoleService : IRoleService
     {
         readonly RoleManager<AppRole> _roleManager;
 
@@ -33,22 +33,25 @@ namespace ETicaretAPI.Persistence.Services
 
         public async Task<bool> CreateRole(string name)
         {
-            IdentityResult result = await _roleManager.CreateAsync(new()
-            {
-                Name = name
-            });
+            IdentityResult result = await _roleManager.CreateAsync(new() { Id = Guid.NewGuid().ToString(), Name = name });
+
+            return result.Succeeded;
+            //IdentityResult result = await _roleManager.CreateAsync(new()
+            //{
+            //    Name = name
+            //});
+            //return result.Succeeded;
+        }
+
+        public async Task<bool> DeleteRole(string id)
+        {
+            IdentityResult result = await _roleManager.DeleteAsync(new() { Id = id });
             return result.Succeeded;
         }
 
-        public async Task<bool> DeleteRole(string name)
+        public async Task<bool> UpdateRole(string id, string name)
         {
-            IdentityResult result = await _roleManager.DeleteAsync(new() { Name = name });
-            return result.Succeeded;
-        }
-
-        public async Task<bool> UpdateRole(string id,string name)
-        {
-            IdentityResult result = await _roleManager.UpdateAsync(new() {Id = id, Name = name});
+            IdentityResult result = await _roleManager.UpdateAsync(new() { Id = id, Name = name });
             return result.Succeeded;
         }
     }
