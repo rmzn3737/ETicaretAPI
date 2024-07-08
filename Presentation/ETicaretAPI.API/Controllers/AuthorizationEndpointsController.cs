@@ -7,5 +7,10 @@ namespace ETicaretAPI.API.Controllers
     [ApiController]
     public class AuthorizationEndpointsController : ControllerBase
     {
+        [HttpPost]
+        public async Task<IActionResult> AssignRoleEndpoint()
+        {
+            return Ok();
+        }
     }
 }
