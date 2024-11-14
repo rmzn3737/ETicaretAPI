@@ -5,9 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using ETicaret.Application.Abstractions.Services;
 using ETicaret.Application.Abstractions.Services.Configurations;
-using ETicaret.Application.DTOs.Configuration;
+using ETicaret.Application.Repositories;
+using ETicaretAPI.Domain.Entities;
 using ETicaretAPI.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+//using Menu = ETicaret.Application.DTOs.Configuration.Menu;
+using Menu = ETicaret.Application.DTOs.Configuration;
 
 namespace ETicaretAPI.Persistence.Services
 {
@@ -36,7 +40,7 @@ namespace ETicaretAPI.Persistence.Services
 
         public async Task AssignRoleEndpointAsync(string[] roles, string menu, string code, Type type)
         {
-            Menu _menu = await _menuReadRepository.GetSingleAsync(m => m.Name == menu);
+            Domain.Entities.Menu _menu = await _menuReadRepository.GetSingleAsync(m => m.Name == menu);
             if (_menu == null)
             {
                 _menu = new()
@@ -49,7 +53,7 @@ namespace ETicaretAPI.Persistence.Services
                 await _menuWriteRepository.SaveAsync();
             }
 
-            Endpoint? endpoint = await _endpointReadRepository.Table.Include(e => e.Menu).Include(e => e.Roles).FirstOrDefaultAsync(e => e.Code == code && e.Menu.Name == menu);
+            var endpoint = await _endpointReadRepository.Table.Include(e => e.Menu).Include(e => e.Roles).FirstOrDefaultAsync(e => e.Code == code && e.Menu.Name == menu);
 
             if (endpoint == null)
             {
