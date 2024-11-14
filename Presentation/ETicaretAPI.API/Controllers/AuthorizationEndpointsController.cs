@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using ETicaret.Application.Features.Commands.AuthorizationEndpoint.AssignRoleEndpoint;
+using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ETicaretAPI.API.Controllers
@@ -7,10 +9,19 @@ namespace ETicaretAPI.API.Controllers
     [ApiController]
     public class AuthorizationEndpointsController : ControllerBase
     {
-        [HttpPost]
-        public async Task<IActionResult> AssignRoleEndpoint()
+        readonly IMediator _mediator;
+
+        public AuthorizationEndpointsController(IMediator mediator)
         {
-            return Ok();
+            _mediator = mediator;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AssignRoleEndpoint(AssignRoleEndpointCommandRequest assignRoleEndpointCommandRequest)
+        {
+            assignRoleEndpointCommandRequest.Type= typeof(Program);
+            AssignRoleEndpointCommandResponse assignRoleEndpointCommandResponse = await _mediator.Send(assignRoleEndpointCommandRequest);
+            return Ok(assignRoleEndpointCommandResponse);
         }
     }
 }
