@@ -43,10 +43,12 @@ builder.Services.AddSignalRServices();
 builder.Services.AddStorage<LocalStorage>();
 //builder.Services.AddStorage<AzureStorage>();
 //builder.Services.AddStorage(ETicaretAPI.Infrastructure.Enums.StorageType.Local);
-builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
+/*builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
 
     //policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()//Her yerden gelen istekler.
-    policy.WithOrigins("http://localhost:4200", "https://localhost:4200").AllowAnyHeader().AllowAnyMethod().AllowCredentials()));
+    policy.WithOrigins("http://localhost:4200", "https://localhost:4200").AllowAnyHeader().AllowAnyMethod().AllowCredentials()));*/ //Burayı Archa geçtikten sonra deneme amaçlı yorum satırı yaptık, sonra duruma göre açabiliriz.
+
+    builder.Services.AddCors(options => options.AddDefaultPolicy(policy=>policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
 
 Logger log = new LoggerConfiguration()
     .WriteTo.Console()
